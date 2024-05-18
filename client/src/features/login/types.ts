@@ -1,9 +1,10 @@
-export interface LoginCredentials {
+export interface LoginForm {
     name: string
     password: string
+    isValid: boolean
 }
 
-export interface RegistrationCredentials extends LoginCredentials {
+export interface RegistrationForm extends LoginForm {
     email: string
     repeatPassword: string
 }

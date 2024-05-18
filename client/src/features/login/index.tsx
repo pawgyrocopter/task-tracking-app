@@ -1,24 +1,40 @@
 import Input from '@/components/Input'
 import { useEffect, useState } from 'react'
-import { LoginCredentials, RegistrationCredentials } from './types'
+import { LoginForm, RegistrationForm } from './types'
+import { validateLogin, validateRegistration } from '@/utils/validation'
 
 const Login = () => {
     const [isLoginForm, setIsLoginForm] = useState<boolean>(true)
-    const [loginCredentials, setLoginCredentials] = useState<LoginCredentials>({
+    const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true)
+
+    const [loginCredentials, setLoginCredentials] = useState<LoginForm>({
         name: '',
         password: '',
+        isValid: false,
     })
+
     const [registrationCredentials, setRegistrationCredentials] =
-        useState<RegistrationCredentials>({
+        useState<RegistrationForm>({
             email: '',
             name: '',
             password: '',
             repeatPassword: '',
+            isValid: false,
         })
 
     useEffect(() => {
         resetCredentials()
     }, [isLoginForm])
+
+    useEffect(() => {
+        const isValid = validateLogin(loginCredentials)
+        setIsButtonDisabled(!isValid)
+    }, [loginCredentials])
+
+    useEffect(() => {
+        const isValid = validateRegistration(registrationCredentials)
+        setIsButtonDisabled(!isValid)
+    }, [registrationCredentials])
 
     function onChange(e: React.ChangeEvent<HTMLInputElement>) {
         const { name, value } = e.target
@@ -67,18 +83,26 @@ const Login = () => {
         }
     }
 
-    function onSubmit(e: React.ChangeEvent<HTMLFormElement>) {
+    async function onSubmit(e: React.ChangeEvent<HTMLFormElement>) {
         e.preventDefault()
+
+        if (isLoginForm) {
+            // make login request
+        } else {
+            // make registration request
+        }
     }
 
     function resetCredentials(): void {
-        setLoginCredentials({ name: '', password: '' })
+        setLoginCredentials({ name: '', password: '', isValid: false })
         setRegistrationCredentials({
             email: '',
             name: '',
             password: '',
             repeatPassword: '',
+            isValid: false,
         })
+        setIsButtonDisabled(true)
     }
 
     console.log('loginCredentials: ', loginCredentials)
@@ -143,11 +167,16 @@ const Login = () => {
                         </>
                     )}
                 </div>
-                <button className="h-[30%]">Submit</button>
+                <button
+                    disabled={isButtonDisabled}
+                    className="text-sm border w-[5rem] h-[2rem] disabled:cursor-not-allowed"
+                >
+                    Submit
+                </button>
             </form>
             <button
                 onClick={() => setIsLoginForm(!isLoginForm)}
-                className="text-xs border p-2 mb-4"
+                className="text-xs mb-4"
             >
                 {isLoginForm
                     ? "Haven't registered yet ?"
