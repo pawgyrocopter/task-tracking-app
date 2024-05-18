@@ -2,6 +2,8 @@ import Input from '@/components/Input'
 import { useEffect, useState } from 'react'
 import { LoginForm, RegistrationForm } from './types'
 import { validateLogin, validateRegistration } from '@/utils/validation'
+import { useAuth } from '@/context/AuthContext'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
     const [isLoginForm, setIsLoginForm] = useState<boolean>(true)
@@ -35,6 +37,9 @@ const Login = () => {
         const isValid = validateRegistration(registrationCredentials)
         setIsButtonDisabled(!isValid)
     }, [registrationCredentials])
+
+    const { login } = useAuth()
+    const navigate = useNavigate()
 
     function onChange(e: React.ChangeEvent<HTMLInputElement>) {
         const { name, value } = e.target
@@ -87,9 +92,17 @@ const Login = () => {
         e.preventDefault()
 
         if (isLoginForm) {
-            // make login request
+            try {
+                // make login request
+                login()
+                navigate('/projects')
+            } catch (error) {}
         } else {
-            // make registration request
+            try {
+                // make login request
+                login()
+                navigate('/projects')
+            } catch (error) {}
         }
     }
 
@@ -104,9 +117,6 @@ const Login = () => {
         })
         setIsButtonDisabled(true)
     }
-
-    console.log('loginCredentials: ', loginCredentials)
-    console.log('registrationCredentials: ', registrationCredentials)
 
     return (
         <div className="w-[20rem] bg-white h-[17rem] rounded-lg flex flex-col justify-center items-center">
