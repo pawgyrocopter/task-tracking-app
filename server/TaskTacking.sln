@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskTackingAPI", "TaskTackingAPI\TaskTackingAPI.csproj", "{D3FE5BF0-857B-4AA7-9BF2-A365871747C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskTrackingDB", "TaskTrackingDB\TaskTrackingDB.csproj", "{5F283C53-AAF4-4D76-B643-CA3695B54CB0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D3FE5BF0-857B-4AA7-9BF2-A365871747C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3FE5BF0-857B-4AA7-9BF2-A365871747C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3FE5BF0-857B-4AA7-9BF2-A365871747C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3FE5BF0-857B-4AA7-9BF2-A365871747C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F283C53-AAF4-4D76-B643-CA3695B54CB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F283C53-AAF4-4D76-B643-CA3695B54CB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F283C53-AAF4-4D76-B643-CA3695B54CB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F283C53-AAF4-4D76-B643-CA3695B54CB0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
