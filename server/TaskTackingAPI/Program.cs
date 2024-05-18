@@ -14,6 +14,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
 
 builder.Services.Configure<ServerSettings>(builder.Configuration.GetSection("ServerSettings"));
+builder.Services.AddSingleton<Cache>();
+
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -33,11 +35,10 @@ builder.Services.AddSingleton<JwtService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+
 
 app.UseHttpsRedirection();
 
