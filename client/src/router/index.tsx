@@ -5,6 +5,7 @@ import ProfilePage from '@/pages/profile'
 import ProjectOverview from '@/pages/project-overview'
 import ProjectsPage from '@/pages/projects'
 import { createBrowserRouter, RouteObject } from 'react-router-dom'
+import ProtectedRoute from './ProtectedRoute'
 
 const routes: RouteObject[] = [
     {
@@ -14,19 +15,35 @@ const routes: RouteObject[] = [
     },
     {
         path: '/profile',
-        element: <ProfilePage />,
+        element: (
+            <ProtectedRoute>
+                <ProfilePage />
+            </ProtectedRoute>
+        ),
     },
     {
         path: '/projects',
-        element: <ProjectsPage />,
+        element: (
+            <ProtectedRoute>
+                <ProjectsPage />
+            </ProtectedRoute>
+        ),
     },
     {
         path: '/projects/:projectId',
-        element: <ProjectOverview />,
+        element: (
+            <ProtectedRoute>
+                <ProjectOverview />
+            </ProtectedRoute>
+        ),
     },
     {
         path: '/projects/:projectId/board',
-        element: <BoardPage />,
+        element: (
+            <ProtectedRoute>
+                <BoardPage />
+            </ProtectedRoute>
+        ),
     },
 ]
 
