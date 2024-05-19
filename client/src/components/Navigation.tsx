@@ -61,7 +61,7 @@ const Navigation = () => {
                             <>
                                 <li className="mb-4">
                                     <Link
-                                        to="/projects/someId"
+                                        to={`/projects/${projectId}`}
                                         onClick={toggleMenu}
                                     >
                                         Overview
@@ -69,7 +69,7 @@ const Navigation = () => {
                                 </li>
                                 <li className="mb-4">
                                     <Link
-                                        to="/projects/someId/board"
+                                        to={`/projects/${projectId}/board`}
                                         onClick={toggleMenu}
                                     >
                                         Board
