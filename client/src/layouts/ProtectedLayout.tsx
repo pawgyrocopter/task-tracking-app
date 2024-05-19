@@ -3,9 +3,9 @@ import { Outlet } from 'react-router-dom'
 
 const ProtectedLayout = () => {
     return (
-        <div className="flex h-screen">
+        <div className="flex md:flex-row flex-col h-screen">
             {<Navigation />}
-            <main className="p-4">
+            <main className="container">
                 <Outlet />
             </main>
         </div>
