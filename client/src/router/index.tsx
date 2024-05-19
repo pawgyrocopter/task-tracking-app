@@ -6,6 +6,7 @@ import ProjectOverview from '@/pages/project-overview'
 import ProjectsPage from '@/pages/projects'
 import { createBrowserRouter, RouteObject } from 'react-router-dom'
 import ProtectedRoute from './ProtectedRoute'
+import ProtectedLayout from '@/layouts/ProtectedLayout'
 
 const routes: RouteObject[] = [
     {
@@ -14,36 +15,18 @@ const routes: RouteObject[] = [
         errorElement: <ErrorPage />,
     },
     {
-        path: '/profile',
+        path: '/',
         element: (
             <ProtectedRoute>
-                <ProfilePage />
+                <ProtectedLayout />
             </ProtectedRoute>
         ),
-    },
-    {
-        path: '/projects',
-        element: (
-            <ProtectedRoute>
-                <ProjectsPage />
-            </ProtectedRoute>
-        ),
-    },
-    {
-        path: '/projects/:projectId',
-        element: (
-            <ProtectedRoute>
-                <ProjectOverview />
-            </ProtectedRoute>
-        ),
-    },
-    {
-        path: '/projects/:projectId/board',
-        element: (
-            <ProtectedRoute>
-                <BoardPage />
-            </ProtectedRoute>
-        ),
+        children: [
+            { path: 'profile', element: <ProfilePage /> },
+            { path: 'projects', element: <ProjectsPage /> },
+            { path: 'projects/:projectId', element: <ProjectOverview /> },
+            { path: 'projects/:projectId/board', element: <BoardPage /> },
+        ],
     },
 ]
 
