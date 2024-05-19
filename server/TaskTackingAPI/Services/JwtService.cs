@@ -1,6 +1,9 @@
+using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using TaskTackingAPI.Models;
@@ -21,12 +24,12 @@ public sealed class JwtService
         _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(settings.Value.AuthSecret));
     }
 
-    public async Task<string> CreateToken(User user)
+    public async Task<string> CreateToken(UserModel userModel)
     {
         var claims = new List<Claim>()
         {
-            new(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
-            new(JwtRegisteredClaimNames.UniqueName, user.Email),
+            new(JwtRegisteredClaimNames.NameId, userModel.Id.ToString()),
+            new(JwtRegisteredClaimNames.UniqueName, userModel.Email),
             new(ClaimTypes.Role, "user")
         };
 
