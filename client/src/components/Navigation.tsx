@@ -3,11 +3,16 @@ import { useAuth } from '@/context/AuthContext'
 import { Link } from 'react-router-dom'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/20/solid'
 import useIsMobile from '@/hooks/useIsMobile'
+import { useParams } from 'react-router-dom'
 
 const Navigation = () => {
     const { logout } = useAuth()
     const isMobile = useIsMobile()
     const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+    const { projectId } = useParams()
+
+    const hasProjectSelected: boolean = !!projectId
 
     const toggleMenu = () => {
         if (isMobile) {
@@ -52,14 +57,26 @@ const Navigation = () => {
                                 Projects
                             </Link>
                         </li>
-                        <li className="mb-4">
-                            <Link
-                                to="/projects/someId/board"
-                                onClick={toggleMenu}
-                            >
-                                Board
-                            </Link>
-                        </li>
+                        {hasProjectSelected && (
+                            <>
+                                <li className="mb-4">
+                                    <Link
+                                        to="/projects/someId"
+                                        onClick={toggleMenu}
+                                    >
+                                        Overview
+                                    </Link>
+                                </li>
+                                <li className="mb-4">
+                                    <Link
+                                        to="/projects/someId/board"
+                                        onClick={toggleMenu}
+                                    >
+                                        Board
+                                    </Link>
+                                </li>
+                            </>
+                        )}
                         <li>
                             <Link to="/profile" onClick={toggleMenu}>
                                 Profile
