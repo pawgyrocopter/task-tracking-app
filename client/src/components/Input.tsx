@@ -1,3 +1,5 @@
+import { twMerge } from 'tailwind-merge'
+
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
 
 const Input = ({
@@ -8,8 +10,10 @@ const Input = ({
     type,
     onChange,
 }: InputProps) => {
-    const mergedClassName =
-        'border px-1 text-sm w-[16rem] h-[1.5rem] rounded-sm'
+    const mergedClassName = twMerge(
+        'border px-1 text-sm w-[16rem] h-[1.5rem] rounded-sm',
+        className
+    )
     return (
         <input
             value={value}
