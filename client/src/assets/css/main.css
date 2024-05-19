@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+    @apply bg-blue-300;
+}
+
 #root {
-    @apply h-screen bg-blue-300;
+    @apply h-screen;
+}
+
+.container {
+    @apply p-4 w-full h-full max-w-[1024px] m-auto;
 }
