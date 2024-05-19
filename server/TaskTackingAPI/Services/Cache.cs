@@ -6,19 +6,19 @@ namespace TaskTackingAPI.Services;
 
 public sealed class Cache
 {
-    private readonly ConcurrentDictionary<string, User> _users = new ();
+    private readonly ConcurrentDictionary<string, UserModel> _users = new ();
 
-    public void AddUser(User user)
+    public void AddUser(UserModel userModel)
     {
-        _users.TryAdd(user.Email, user);
+        _users.TryAdd(userModel.Email, userModel);
     }
 
-    public IEnumerable<User> GetUsers()
+    public IEnumerable<UserModel> GetUsers()
     {
         return _users.Values;
     }
 
-    public User GetUser(string email)
+    public UserModel GetUser(string email)
     {
         return _users.GetValueOrDefault(email);
     }
