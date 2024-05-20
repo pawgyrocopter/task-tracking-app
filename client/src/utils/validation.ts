@@ -1,4 +1,4 @@
-import { LoginForm, RegistrationForm } from '@/features/login/types'
+import { LoginForm, RegistrationForm } from '@/features/forms/types'
 
 export function validateLogin(credentials: LoginForm): boolean {
     if (credentials.name.length > 0 && credentials.password.length > 0) {
