@@ -1,19 +1,25 @@
-import Input from '@/components/Input'
-
 const Login = ({
     setIsLoginForm,
 }: {
     setIsLoginForm: (isLoginForm: boolean) => void
 }) => {
     return (
-        <div className="w-[20rem] bg-white h-[17rem] rounded-lg flex flex-col justify-center items-center">
+        <div className="w-[22rem] bg-white h-[22rem] rounded-lg flex flex-col justify-center items-center">
             <form
                 onSubmit={() => {}}
-                className="w-full h-full flex flex-col mt-[1rem] items-center justify-center"
+                className="w-full h-full flex flex-col mt-[1rem] items-center justify-center gap-2"
             >
-                <div className="flex flex-col gap-2 h-[70%]">
-                    <Input />
-                    <Input />
+                <div className="flex flex-col gap-1 justify-center items-center">
+                    <input
+                        type="email"
+                        placeholder="Email"
+                        className="border px-1 text-sm w-[16rem] h-[1.5rem] rounded-sm"
+                    />
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        className="border px-1 text-sm w-[16rem] h-[1.5rem] rounded-sm"
+                    />
                 </div>
                 <button
                     disabled={true}
@@ -24,7 +30,7 @@ const Login = ({
             </form>
             <button
                 onClick={() => setIsLoginForm(false)}
-                className="text-xs mb-4"
+                className="text-xs my-4"
             >
                 Haven't registered yet ?
             </button>
