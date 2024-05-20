@@ -1,5 +1,7 @@
-type Project = {
+export type Project = {
     id: string
-    title: string
-    img?: string
+    name: string
+    tasks: number
+    completed_tasks: number
+    img: string
 }
