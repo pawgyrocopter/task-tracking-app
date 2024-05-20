@@ -1,17 +1,25 @@
 import ProjectList from '@/features/project/ProjectList'
-
-const mockProjects: Project[] = [
-    { id: '1', title: 'top website' },
-    { id: '2', title: 'e-commerce' },
-    { id: '3', title: 'artist portfolio' },
-    { id: '4', title: 'lol' },
-]
+import { Project } from '@/features/project/types'
+import { useEffect, useState } from 'react'
 
 const ProjectsPage = () => {
+    const [projects, setProjects] = useState<Project[]>([])
+    const [isLoading, setIsLoading] = useState<boolean>(true)
+
+    useEffect(() => {
+        async function fetchProjects() {
+            const response = await fetch('data/projects.json')
+            const data = await response.json()
+            setProjects(data)
+            setIsLoading(false)
+        }
+        fetchProjects()
+    }, [])
+
     return (
         <div className="w-full h-full flex flex-col gap-4 items-center">
             <h1>Projects</h1>
-            <ProjectList projects={mockProjects} />
+            {isLoading ? 'Loading...' : <ProjectList projects={projects} />}
         </div>
     )
 }
