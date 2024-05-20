@@ -1,32 +1,82 @@
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { LoginFormFields } from './types'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '@/context/AuthContext'
+import { validateEmail, validatePassword } from '@/utils/validation'
+
 const Login = ({
     setIsLoginForm,
 }: {
     setIsLoginForm: (isLoginForm: boolean) => void
 }) => {
+    const navigate = useNavigate()
+    const { login } = useAuth()
+
+    const {
+        register,
+        handleSubmit,
+        setError,
+        formState: { errors, isSubmitting },
+    } = useForm<LoginFormFields>()
+
+    const onSubmit: SubmitHandler<LoginFormFields> = async (data) => {
+        // simulate request
+        console.log('data', data)
+        try {
+            await new Promise((resolve) => setTimeout(resolve, 1000))
+            login()
+            navigate('/projects')
+        } catch (error) {
+            console.log(error)
+            setError('root', {
+                message: 'Incorrect email or password',
+            })
+        }
+    }
+
     return (
         <div className="w-[22rem] bg-white h-[22rem] rounded-lg flex flex-col justify-center items-center">
             <form
-                onSubmit={() => {}}
+                onSubmit={handleSubmit(onSubmit)}
                 className="w-full h-full flex flex-col mt-[1rem] items-center justify-center gap-2"
             >
                 <div className="flex flex-col gap-1 justify-center items-center">
-                    <input
-                        type="email"
-                        placeholder="Email"
-                        className="border px-1 text-sm w-[16rem] h-[1.5rem] rounded-sm"
-                    />
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        className="border px-1 text-sm w-[16rem] h-[1.5rem] rounded-sm"
-                    />
+                    <div className="w-[16rem]">
+                        <input
+                            {...register('email', {
+                                required: 'Email is required',
+                                validate: validateEmail,
+                            })}
+                            type="email"
+                            placeholder="Email"
+                            className="border px-1 text-sm w-[16rem] h-[1.5rem] rounded-sm"
+                        />
+                        <p className="text-red-500 text-xs">
+                            {errors.email?.message}
+                        </p>
+                    </div>
+                    <div className="w-[16rem]">
+                        <input
+                            {...register('password', {
+                                required: 'Password is required',
+                                validate: validatePassword,
+                            })}
+                            type="password"
+                            placeholder="Password"
+                            className="border px-1 text-sm w-[16rem] h-[1.5rem] rounded-sm"
+                        />
+                        <p className="text-red-500 text-xs">
+                            {errors.password?.message}
+                        </p>
+                    </div>
                 </div>
                 <button
-                    disabled={true}
+                    disabled={isSubmitting}
                     className="text-sm border w-[5rem] h-[2rem] disabled:cursor-not-allowed"
                 >
-                    Login
+                    {isSubmitting ? 'Loading...' : 'Login'}
                 </button>
+                <p className="text-red-500 text-xs h-4">{errors.root?.message}</p>
             </form>
             <button
                 onClick={() => setIsLoginForm(false)}
