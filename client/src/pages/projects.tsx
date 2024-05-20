@@ -18,7 +18,6 @@ const ProjectsPage = () => {
 
     return (
         <div className="w-full h-full flex flex-col gap-4 items-center">
-            <h1>Projects</h1>
             {isLoading ? 'Loading...' : <ProjectList projects={projects} />}
         </div>
     )
