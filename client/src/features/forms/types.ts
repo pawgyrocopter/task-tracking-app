@@ -10,3 +10,11 @@ export type RegistrationFormFields = {
     password: string
     repeatPassword: string
 }
+
+export type CreateProjectFormFields = {
+    name: string
+    description: string
+    startDate: Date
+    endDate: Date
+    colaborators: string[]
+}
