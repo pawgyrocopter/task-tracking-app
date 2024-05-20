@@ -1,5 +1,7 @@
+import CreateProjectForm from '@/features/forms/CreateProject'
+
 const CreateProjectPage = () => {
-    return <>create project page</>
+    return <CreateProjectForm />
 }
 
 export default CreateProjectPage
