@@ -33,7 +33,7 @@ const Navigation = () => {
             {isMobile && (
                 <div className="w-[4rem]">
                     <button
-                        className="absolute top-0 left-0 z-50 p-2 focus:outline-none"
+                        className="absolute top-0 left-0 z-[100] p-2 focus:outline-none"
                         onClick={toggleMenu}
                     >
                         {isMenuOpen ? (
@@ -46,7 +46,7 @@ const Navigation = () => {
             )}
 
             <aside
-                className={`md:static fixed top-0 left-0 w-full md:w-[15rem] h-full bg-gray-800 text-white p-4 transform ${
+                className={`md:static fixed top-0 left-0 z-[50] w-full md:w-[15rem] h-full bg-gray-800 text-white p-4 transform ${
                     isMenuOpen ? 'translate-x-0' : '-translate-x-full'
                 } transition-transform duration-300 ease-in-out`}
             >

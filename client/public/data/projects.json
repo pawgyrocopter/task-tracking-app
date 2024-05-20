@@ -2,6 +2,7 @@
     {
         "id": "cff25cc1-2e11-4bc3-8eba-5b63d2c7d741",
         "name": "website-1",
+        "description": "A little local project about live on the planet, beautiful creatures and beautiful creatures and other stuff",
         "tasks": 30,
         "completed_tasks": 17,
         "img": "/some_image.png"
@@ -9,6 +10,7 @@
     {
         "id": "cff25cc1-ak21-4bc3-8eba-5b63d2c7d741",
         "name": "blog",
+        "description": "A little local project about live on the planet, beautiful creatures and beautiful creatures and other stuff",
         "tasks": 30,
         "completed_tasks": 29,
         "img": "/some_image.png"
@@ -16,6 +18,7 @@
     {
         "id": "kjsu1cc1-2e11-4bc3-8eba-5b63d2c7d741",
         "name": "e-commerce",
+        "description": "A little local project about live on the planet, beautiful creatures and beautiful creatures and other stuff",
         "tasks": 12,
         "completed_tasks": 3,
         "img": "/some_image.png"
@@ -23,6 +26,7 @@
     {
         "id": "jqfd1cc1-2e11-4bc3-8eba-5b63d2c7d741",
         "name": "web-app",
+        "description": "A little local project about live on the planet, beautiful creatures and beautiful creatures and other stuff",
         "tasks": 51,
         "completed_tasks": 4,
         "img": "/some_image.png"
