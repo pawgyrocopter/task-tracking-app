@@ -1,10 +1,10 @@
 export interface LoginForm {
-    name: string
+    email: string
     password: string
-    isValid: boolean
 }
 
 export interface RegistrationForm extends LoginForm {
+    name: string
     email: string
     repeatPassword: string
 }
