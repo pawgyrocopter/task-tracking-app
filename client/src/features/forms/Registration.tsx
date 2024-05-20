@@ -122,7 +122,7 @@ const Registration = ({
                 >
                     {isSubmitting ? 'Loading...' : 'Register'}
                 </button>
-                <p className="text-red-500 text-xs">{errors.root?.message}</p>
+                <p className="text-red-500 text-xs h-4">{errors.root?.message}</p>
             </form>
             <button
                 onClick={() => setIsLoginForm(true)}
