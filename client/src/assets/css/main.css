@@ -2,8 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+    @font-face {
+        font-family: 'Roboto';
+        font-style: thin;
+        font-weight: 100;
+        font-display: swap;
+        src: url('../fonts/Roboto-Thin.ttf') format('truetype');
+    }
+    @font-face {
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url('../fonts/Roboto-Regular.ttf') format('truetype');
+    }
+    @font-face {
+        font-family: 'Roboto';
+        font-style: bold;
+        font-weight: 700;
+        font-display: swap;
+        src: url('../fonts/Roboto-Bold.ttf') format('truetype');
+    }
+}
+
 body {
-    @apply bg-blue-300;
+    @apply bg-white font-roboto;
 }
 
 #root {

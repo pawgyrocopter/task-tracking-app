@@ -35,7 +35,7 @@ const Registration = ({
     }
 
     return (
-        <div className="w-[22rem] bg-white h-[22rem] rounded-lg flex flex-col justify-center items-center">
+        <div className="w-[22rem] bg-gray-500 h-[22rem] rounded-lg flex flex-col justify-center items-center">
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 className="w-full h-full flex flex-col mt-[1rem] items-center justify-center gap-2"
@@ -118,15 +118,17 @@ const Registration = ({
                 </div>
                 <button
                     disabled={isSubmitting}
-                    className="text-sm border w-[5rem] h-[2rem] disabled:cursor-not-allowed"
+                    className="text-sm bg-gray-300 rounded-lg hover:bg-white duration-300 w-[5rem] h-[2rem] disabled:cursor-not-allowed"
                 >
                     {isSubmitting ? 'Loading...' : 'Register'}
                 </button>
-                <p className="text-red-500 text-xs h-4">{errors.root?.message}</p>
+                <p className="text-red-500 text-xs h-4">
+                    {errors.root?.message}
+                </p>
             </form>
             <button
                 onClick={() => setIsLoginForm(true)}
-                className="text-xs my-4"
+                className="text-sm my-4"
             >
                 Already have an account ?
             </button>
