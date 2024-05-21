@@ -1,11 +1,13 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { CreateProjectFormFields } from './types'
 import { useNavigate } from 'react-router-dom'
-import AddButton from '@/components/AddButton'
+import { useState } from 'react'
+import CollaboratorInput from '@/components/CollaboratorInput'
 import { formatDate } from '@/utils/strings'
 
 const CreateProjectForm = () => {
     const navigate = useNavigate()
+    const [collaborators, setCollaborators] = useState<string[]>([])
 
     const {
         register,
@@ -17,6 +19,8 @@ const CreateProjectForm = () => {
     const onSubmit: SubmitHandler<CreateProjectFormFields> = async (data) => {
         // simulate request
         console.log('data', data)
+        console.log(collaborators)
+
         try {
             await new Promise((resolve) => setTimeout(resolve, 1000))
             navigate('/projects')
@@ -102,9 +106,11 @@ const CreateProjectForm = () => {
                             </p>
                         </div>
                     </div>
-                    <div className="border flex gap-1 px-2 w-full h-[6rem] rounded-lg shadow-lg">
-                        <p className="text-gray-700 text-lg">Collaborators</p>
-                        <AddButton className="py-1 w-5 h-5" />
+                    <div className="w-[18rem] md:w-[32rem]">
+                        <CollaboratorInput
+                            collaborators={collaborators}
+                            setCollaborators={setCollaborators}
+                        />
                     </div>
                 </div>
                 <button
