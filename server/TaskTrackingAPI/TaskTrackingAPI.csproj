@@ -4,12 +4,14 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <RootNamespace>TaskTackingAPI</RootNamespace>
     </PropertyGroup>
 
     <PropertyGroup>
         <EnableSDKContainerSupport>true</EnableSDKContainerSupport>
         <ContainerImageTags>$(Version);latest</ContainerImageTags>
-        <ContainerImageName>pawgyrocopter/task-tracking-app</ContainerImageName>
+        <ContainerImageName>gcr.io/phrasal-datum-424017-e3/api</ContainerImageName>
     </PropertyGroup>
 
     <ItemGroup>
@@ -29,5 +31,10 @@
     <ItemGroup>
       <ProjectReference Include="..\TaskTrackingDB\TaskTrackingDB.csproj" />
     </ItemGroup>
-    
+
+    <ItemGroup>
+      <Content Include="..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
+    </ItemGroup>
 </Project>
