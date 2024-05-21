@@ -23,7 +23,7 @@ builder.Services.Configure<ServerSettings>(builder.Configuration.GetSection("Ser
 builder.Services.AddSingleton<Cache>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration["ServerSettings:ConnectionString"], b => b.MigrationsAssembly("TaskTackingAPI")));
+    options.UseNpgsql(builder.Configuration["ServerSettings:ConnectionString"], b => b.MigrationsAssembly("TaskTrackingAPI")));
 
 
 
