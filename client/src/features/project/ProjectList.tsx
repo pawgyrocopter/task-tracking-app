@@ -2,28 +2,29 @@ import useIsMobile from '@/hooks/useIsMobile'
 import ProjectCard from './Project'
 import { Project } from './types'
 import CreateProjectButton from './CreateProjectButton'
+import useTitleFromPathname from '@/hooks/useTitleFromPathname'
 
 const ProjectList = ({ projects }: { projects: Project[] }) => {
     const isMobile = useIsMobile()
+    const title = useTitleFromPathname()
 
     return (
-        <div className="w-full bg-gray-300 p-4 rounded-lg h-full flex flex-col gap-4">
-            <div className="w-full flex flex-col md:flex-row gap-4 md:gap-0 justify-between items-center">
-                {isMobile && <h1 className="text-2xl">/Projects/</h1>}
-                <CreateProjectButton />
+        <>
+            <div className="w-full flex flex-row gap-4 md:gap-0 justify-between items-start">
+                <div className="flex-1">
+                    <CreateProjectButton />
+                </div>
                 {!isMobile && (
                     <>
-                        <div className="flex-grow flex justify-center">
-                            <h1 className="text-3xl">/Projects/</h1>
-                        </div>
-                        <div className="w-24"></div>
+                        <h1 className="text-2xl">{title}</h1>
+                        <div className="flex-1"></div>
                     </>
                 )}
             </div>
             {projects.map((project, idx) => (
                 <ProjectCard key={idx} {...project} />
             ))}
-        </div>
+        </>
     )
 }
 
