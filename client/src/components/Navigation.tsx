@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/20/solid'
 import useIsMobile from '@/hooks/useIsMobile'
 import { useParams } from 'react-router-dom'
+import Button from './ui/Button'
 
 const Navigation = ({ title }: { title: string }) => {
     const { logout } = useAuth()
@@ -106,12 +107,7 @@ const Navigation = ({ title }: { title: string }) => {
                             </Link>
                         </li>
                     </ul>
-                    <button
-                        className="p-2 bg-white text-[1.35rem] text-black shadow-lg rounded-full"
-                        onClick={logout}
-                    >
-                        Logout
-                    </button>
+                    <Button onClick={logout}>Logout</Button>
                 </nav>
             </aside>
         </>
