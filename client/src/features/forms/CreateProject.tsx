@@ -32,8 +32,7 @@ const CreateProjectForm = () => {
     }
 
     return (
-        <div className="w-full bg-gray-300 p-4 rounded-lg h-full flex flex-col justify-center items-center gap-4">
-            <h1 className="text-2xl">/Create new project/</h1>
+        <>
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 className="w-full bg-gray-300 h-full flex flex-col items-center gap-4"
@@ -123,7 +122,7 @@ const CreateProjectForm = () => {
                     {errors.root?.message}
                 </p>
             </form>
-        </div>
+        </>
     )
 }
 

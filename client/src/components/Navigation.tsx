@@ -5,7 +5,7 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/20/solid'
 import useIsMobile from '@/hooks/useIsMobile'
 import { useParams } from 'react-router-dom'
 
-const Navigation = () => {
+const Navigation = ({ title }: { title: string }) => {
     const { logout } = useAuth()
     const isMobile = useIsMobile()
     const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -38,9 +38,9 @@ const Navigation = () => {
     return (
         <>
             {isMobile && (
-                <div className="w-[4rem]">
+                <header className="w-full flex items-center px-2 pt-2">
                     <button
-                        className="absolute top-0 left-0 z-[100] p-2 focus:outline-none"
+                        className="focus:outline-none flex-1"
                         onClick={toggleMenu}
                     >
                         {isMenuOpen ? (
@@ -49,7 +49,9 @@ const Navigation = () => {
                             <Bars3Icon className="h-8 w-8 text-black" />
                         )}
                     </button>
-                </div>
+                    <h1 className="text-2xl text-center">{title}</h1>
+                    <div className="flex-1"></div>
+                </header>
             )}
 
             <aside
