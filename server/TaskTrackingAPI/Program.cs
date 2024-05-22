@@ -61,4 +61,3 @@ app.UseCors(policy => policy
 app.MapControllers();
 
 app.Run();
-
