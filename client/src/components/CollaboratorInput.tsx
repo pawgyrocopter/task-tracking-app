@@ -83,7 +83,7 @@ const CollaboratorInput: React.FC<CollaboratorInputProps> = ({
     }
 
     return (
-        <div className="border flex flex-wrap items-center gap-2 px-2 w-full rounded-lg shadow-lg">
+        <div className="border flex flex-wrap h-[2.25rem] items-center gap-2 px-2 w-full rounded-lg shadow-lg">
             {collaborators.length === 0 && (
                 <p className="text-gray-700 text-lg">Collaborators</p>
             )}
