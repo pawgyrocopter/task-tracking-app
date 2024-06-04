@@ -3,11 +3,9 @@ import { customFetch } from '@/utils/fetch'
 
 const AUTH_ENDPOINT = '/auth'
 
-export async function loginUser(credentials: LoginFormFields) {
-    return customFetch(AUTH_ENDPOINT + '/signin', {
-        method: 'POST',
-        body: JSON.stringify(credentials),
-    })
+export interface AuthTokens {
+    token: string
+    refreshToken: string
 }
 
 export async function registerUser(credentials: RegistrationFormFields) {
@@ -17,9 +15,20 @@ export async function registerUser(credentials: RegistrationFormFields) {
     })
 }
 
-export async function refreshToken(token: string, refreshToken: string) {
+export async function loginUser(
+    credentials: LoginFormFields
+): Promise<AuthTokens> {
+    return customFetch<AuthTokens>(AUTH_ENDPOINT + '/signin', {
+        method: 'POST',
+        body: JSON.stringify(credentials),
+    })
+}
+
+export async function refresh(refreshToken: string): Promise<AuthTokens> {
     return customFetch(AUTH_ENDPOINT + '/refresh', {
         method: 'POST',
-        body: JSON.stringify({ token, refreshToken }),
+        body: JSON.stringify({
+            refreshToken: refreshToken,
+        }),
     })
 }
