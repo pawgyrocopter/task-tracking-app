@@ -3,6 +3,7 @@ import { LoginFormFields } from './types'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '@/context/AuthContext'
 import { validateEmail, validatePassword } from '@/utils/validation'
+import { loginUser } from '@/services/AuthService'
 
 const Login = ({
     setIsLoginForm,
@@ -20,17 +21,16 @@ const Login = ({
     } = useForm<LoginFormFields>()
 
     const onSubmit: SubmitHandler<LoginFormFields> = async (data) => {
-        // simulate request
-        console.log('data', data)
         try {
-            await new Promise((resolve) => setTimeout(resolve, 1000))
-            login()
+            const tokens = await loginUser(data)
+            login(tokens)
             navigate('/projects')
         } catch (error) {
-            console.log(error)
-            setError('root', {
-                message: 'Incorrect email or password',
-            })
+            if (error instanceof Error) {
+                setError('root', {
+                    message: error.message,
+                })
+            }
         }
     }
 
