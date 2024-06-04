@@ -6,6 +6,7 @@ import {
     validatePassword,
     validatePhoneNumber,
 } from '@/utils/validation'
+import { registerUser } from '@/services/AuthService'
 
 const Registration = ({
     setIsLoginForm,
@@ -21,16 +22,15 @@ const Registration = ({
     } = useForm<RegistrationFormFields>()
 
     const onSubmit: SubmitHandler<RegistrationFormFields> = async (data) => {
-        // simulate request
-        console.log('data', data)
         try {
-            await new Promise((resolve) => setTimeout(resolve, 1000))
-            throw new Error()
+            await registerUser(data)
+            setIsLoginForm(true)
         } catch (error) {
-            console.log(error)
-            setError('root', {
-                message: 'This email is already taken',
-            })
+            if (error instanceof Error) {
+                setError('root', {
+                    message: error.message,
+                })
+            }
         }
     }
 

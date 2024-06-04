@@ -1,6 +1,9 @@
 const API_URL = import.meta.env.VITE_API_URL
 
-export async function customFetch(endpoint: string, options: RequestInit = {}) {
+export async function customFetch<ReturnType>(
+    endpoint: string,
+    options: RequestInit = {}
+): Promise<ReturnType> {
     const defaultHeaders = {
         'Content-Type': 'application/json',
     }
