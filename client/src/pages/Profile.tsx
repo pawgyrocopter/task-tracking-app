@@ -2,11 +2,11 @@ import Button from '@/components/ui/Button'
 
 const ProfilePage = () => {
     return (
-        <div className="md:w-[40rem] w-full md:items-start items-center h-full flex flex-col p-4 gap-4">
-            <img src="account-avatar.svg" className="w-[75px] md:w-[150px]" />
+        <div className="w-full items-center h-full flex flex-col p-4 gap-4">
+            <img src="account-avatar.svg" className="w-[100px] md:w-[150px]" />
             <form
                 onSubmit={(e) => e.preventDefault()}
-                className="w-full h-full flex flex-col items-center gap-2"
+                className="md:max-w-[40rem] w-full h-full flex flex-col items-center gap-2"
             >
                 <input
                     placeholder="Name"
