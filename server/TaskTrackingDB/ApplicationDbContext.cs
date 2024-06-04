@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TaskTrackingDB.Entities;
@@ -11,6 +10,8 @@ public class ApplicationDbContext : IdentityDbContext<User>
     public DbSet<User> Users { get; set; }
     
     public DbSet<Role> Roles { get; set; }
+    
+    public DbSet<ProjectTask> Tasks { get; set; }
     
     public DbSet<Project> Projects { get; set; }
     

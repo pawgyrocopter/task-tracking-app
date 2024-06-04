@@ -1,6 +1,6 @@
 namespace TaskTrackingDB.Entities;
 
-public class Task
+public class ProjectTask
 {
     public Guid Id { get; set; }
     
