@@ -1,13 +1,13 @@
-import HomePage from '@/pages'
-import BoardPage from '@/pages/board'
-import ErrorPage from '@/pages/error'
-import ProfilePage from '@/pages/profile'
-import ProjectOverview from '@/pages/project-overview'
-import ProjectsPage from '@/pages/projects'
 import { createBrowserRouter, RouteObject } from 'react-router-dom'
 import ProtectedRoute from './ProtectedRoute'
 import ProtectedLayout from '@/layouts/ProtectedLayout'
-import CreateProjectPage from '@/pages/create-project'
+import CreateProjectPage from '@/pages/CreateProject'
+import HomePage from '@/pages'
+import ErrorPage from '@/pages/ErrorPage'
+import ProfilePage from '@/pages/Profile'
+import ProjectsPage from '@/pages/Projects'
+import ProjectOverview from '@/pages/ProjectOverview'
+import BoardPage from '@/pages/Board'
 
 const routes: RouteObject[] = [
     {
