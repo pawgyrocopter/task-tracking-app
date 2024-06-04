@@ -219,7 +219,7 @@ namespace TaskTackingAPI.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("TaskId")
+                    b.Property<Guid?>("ProjectTaskId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("UserId")
@@ -227,7 +227,7 @@ namespace TaskTackingAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TaskId");
+                    b.HasIndex("ProjectTaskId");
 
                     b.HasIndex("UserId");
 
@@ -278,7 +278,7 @@ namespace TaskTackingAPI.Migrations
                     b.ToTable("Projects");
                 });
 
-            modelBuilder.Entity("TaskTrackingDB.Entities.Task", b =>
+            modelBuilder.Entity("TaskTrackingDB.Entities.ProjectTask", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -308,7 +308,7 @@ namespace TaskTackingAPI.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("Task");
+                    b.ToTable("Tasks");
                 });
 
             modelBuilder.Entity("TaskTrackingDB.Entities.TelegramInfo", b =>
@@ -545,15 +545,15 @@ namespace TaskTackingAPI.Migrations
 
             modelBuilder.Entity("TaskTrackingDB.Entities.History.TaskHistory", b =>
                 {
-                    b.HasOne("TaskTrackingDB.Entities.Task", "Task")
+                    b.HasOne("TaskTrackingDB.Entities.ProjectTask", "ProjectTask")
                         .WithMany()
-                        .HasForeignKey("TaskId");
+                        .HasForeignKey("ProjectTaskId");
 
                     b.HasOne("TaskTrackingDB.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
 
-                    b.Navigation("Task");
+                    b.Navigation("ProjectTask");
 
                     b.Navigation("User");
                 });
@@ -571,7 +571,7 @@ namespace TaskTackingAPI.Migrations
                     b.Navigation("CreatorUser");
                 });
 
-            modelBuilder.Entity("TaskTrackingDB.Entities.Task", b =>
+            modelBuilder.Entity("TaskTrackingDB.Entities.ProjectTask", b =>
                 {
                     b.HasOne("TaskTrackingDB.Entities.Priority", "Priority")
                         .WithMany()
