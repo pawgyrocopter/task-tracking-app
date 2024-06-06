@@ -35,5 +35,5 @@ body {
 }
 
 .container {
-    @apply p-4 w-full h-full m-auto;
+    @apply p-4 w-full h-full mx-auto;
 }
