@@ -1,3 +1,5 @@
+using System;
+
 namespace TaskTrackingDB.Entities;
 
 public class Transaction

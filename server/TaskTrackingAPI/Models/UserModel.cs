@@ -39,7 +39,6 @@ public class UserModel
             Id = Id,
             Name = Name,
             PhoneNumber = PhoneNumber,
-            Password = Password
         };
     }
 }
