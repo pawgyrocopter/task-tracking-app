@@ -1,5 +1,8 @@
+using System.Security.Claims;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TaskTackingAPI.DTOs;
@@ -9,41 +12,39 @@ using TaskTrackingDB.Entities;
 namespace TaskTackingAPI.Controllers;
 
 [Route("api/[controller]")]
+[Authorize]
 public class ProjectsController: ControllerBase
 {
     private readonly ApplicationDbContext _context;
     private readonly IMapper _mapper;
+    private readonly UserManager<User> _userManager;
 
-    public ProjectsController(ApplicationDbContext context, IMapper mapper)
+    public ProjectsController(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager)
     {
         _context = context;
         _mapper = mapper;
+        _userManager = userManager;
     }
 
-    // GET: api/Projects
     [HttpGet]
-    public async Task<IEnumerable<List<ProjectDto>>> GetProjects()
+    public async Task<List<ProjectDto>> GetProjects()
     {
-        return await _context.Projects.ProjectTo<List<ProjectDto>>(_mapper.ConfigurationProvider).ToListAsync();
+        return await _context.Projects.Include(x => x.Tasks).Include(x => x.Users).ProjectTo<ProjectDto>(_mapper.ConfigurationProvider).ToListAsync();
     }
 
-    // GET: api/Projects/5
     [HttpGet("{id}")]
     public async Task<ActionResult<ProjectDto>> GetProject(Guid id)
     {
         var project = await _context.Projects.FindAsync(id);
 
         if (project == null)
-        {
             return NotFound();
-        }
 
         return _mapper.Map<ProjectDto>(project);
     }
 
-    // PUT: api/Projects/5
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutProject(Guid id, [FromBody]ProjectDto projectDto)
+    public async Task<IActionResult> PutProject(Guid id, [FromBody]ProjectUpdateDto projectDto)
     {
         var project = _context.Projects.FirstOrDefault(x => x.Id == id);
 
@@ -51,36 +52,64 @@ public class ProjectsController: ControllerBase
             return BadRequest();
         
         _context.Entry(project).State = EntityState.Modified;
+        
         try
         {
             project.Name = projectDto.Name;
             project.StartDate = project.StartDate;
             project.EndDate = project.EndDate;
+
+            foreach (var user in projectDto.UsersToAdd)
+            {
+                var dbUser = await _context.Users.FirstOrDefaultAsync(x => x.Email == user.Email);
+                if (dbUser is not null)
+                    project.Users.Add(dbUser);
+            }
+            
+            foreach (var user in projectDto.UsersToRemove)
+            {
+                var dbUser = await _context.Users.FirstOrDefaultAsync(x => x.Email == user.Email);
+                if (dbUser is not null)
+                    project.Users.Remove(dbUser);
+            }
+            
             await _context.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)
         {
             if (!ProjectExists(id))
-            {
                 return NotFound();
-            }
         }
 
         return NoContent();
     }
 
-    // POST: api/Projects
     [HttpPost]
-    public async Task<ActionResult<Project>> PostProject(ProjectDto projectDto)
+    public async Task<ActionResult<ProjectDto>> PostProject([FromBody]ProjectCreateDto projectDto)
     {
-        var project = _mapper.Map<Project>(projectDto);
+        var project = new Project()
+        {
+            EndDate = projectDto.EndDate,
+            StartDate = projectDto.StartDate,
+            Name = projectDto.Name
+        };
+
+        var email = User.FindFirst(ClaimTypes.Email).Value;
+        var currentUser = await _userManager.FindByNameAsync(email);
+        
+        foreach (var user in projectDto?.Users)
+        {
+            var dbUser = await _context.Users.FirstOrDefaultAsync(x => x.Email == user.Email);
+            if (dbUser is not null)
+                project.Users.Add(dbUser);
+        }
+        
         _context.Projects.Add(project);
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction("GetProject", new {id = project.Id}, project);
+        return _mapper.Map<ProjectDto>(project);
     }
 
-    // DELETE: api/Projects/5
     [HttpDelete("{id}")]
     public async Task<ActionResult<ProjectDto>> DeleteProject(Guid id)
     {

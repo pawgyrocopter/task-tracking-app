@@ -1,3 +1,5 @@
+using System;
+
 namespace TaskTrackingDB.Entities;
 
 public class ProjectTask
@@ -16,4 +18,6 @@ public class ProjectTask
     public Priority Priority { get; set; }
     
     public Project Project { get; set; }
+    
+    public User AssignedUser { get; set; }
 }

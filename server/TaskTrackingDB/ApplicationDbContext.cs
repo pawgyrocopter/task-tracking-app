@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TaskTrackingDB.Entities;
@@ -5,11 +6,11 @@ using TaskTrackingDB.Entities.History;
 
 namespace TaskTrackingDB;
 
-public class ApplicationDbContext : IdentityDbContext<User>
+public class ApplicationDbContext : IdentityDbContext<User, Role, Guid>
 {
-    public DbSet<User> Users { get; set; }
-    
-    public DbSet<Role> Roles { get; set; }
+    // public DbSet<User> Users { get; set; }
+    //
+    // public DbSet<Role> Roles { get; set; }
     
     public DbSet<ProjectTask> Tasks { get; set; }
     
@@ -32,6 +33,23 @@ public class ApplicationDbContext : IdentityDbContext<User>
         builder.Entity<Project>().HasMany(x => x.Users);
 
         builder.Entity<User>().HasMany<Project>(x => x.Projects);
+
+        builder.Entity<Role>().HasData(
+            new Role()
+            {
+                Id = Guid.NewGuid(),
+                RoleName = "Manager"
+            },
+            new Role()
+            {
+                Id = Guid.NewGuid(),
+                RoleName = "User"
+            },
+            new Role()
+            {
+                Id = Guid.NewGuid(),
+                RoleName = "Admin"
+            });
         
         base.OnModelCreating(builder);
     }

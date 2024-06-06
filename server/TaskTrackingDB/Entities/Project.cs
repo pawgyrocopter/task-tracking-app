@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace TaskTrackingDB.Entities;
 
 public class Project
@@ -9,8 +12,10 @@ public class Project
     public DateTime? StartDate { get; set; }
     
     public DateTime? EndDate { get; set; }
-    
-    public List<User> Users { get; set; }
+
+    public List<User> Users { get; set; } = [];
+
+    public List<ProjectTask> Tasks { get; set; } = [];
     
     public User CreatorUser { get; set; }
 }

@@ -13,5 +13,8 @@ public class AutoMapperProfile : Profile
         
         CreateMap<ProjectTask, TaskDto>();
         CreateMap<TaskDto, ProjectTask>();
+
+        CreateMap<UserDto, User>();
+        CreateMap<User, UserDto>();
     }
 }

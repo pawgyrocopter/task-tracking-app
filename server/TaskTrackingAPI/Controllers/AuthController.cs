@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TaskTackingAPI.DTOs.AuthDtos;
@@ -11,14 +12,19 @@ namespace TaskTackingAPI.Controllers;
 
 
 [Route("api/[controller]")]
-public class AuthController(JwtService jwtService, ApplicationDbContext context) : ControllerBase
+public class AuthController(JwtService jwtService, ApplicationDbContext context, UserManager<User> userManager, SignInManager<User> signInManager) : ControllerBase
 {
     [HttpPost("signin")]
     public async Task<ActionResult<AuthDto>> SignIn([FromBody] SignInDto signInDto)
     {
         var user = await context.Users.FirstOrDefaultAsync(x => x.Email == signInDto.Email);
+        
+        if (user == null)
+           return Unauthorized("Email doesn't exist");
 
-        if (user is not null && user.Password == signInDto.Password)
+        var result = await signInManager.CheckPasswordSignInAsync(user, signInDto.Password, false);
+        
+        if (result.Succeeded)
         {
             var userModel = new UserModel() {Email = user.Email, Id = user.Id};
             var response = await jwtService.CreateToken(userModel.Email);
@@ -37,17 +43,29 @@ public class AuthController(JwtService jwtService, ApplicationDbContext context)
     }
 
     [HttpPost("signup")]
-    public async Task<AuthDto> SignUp([FromBody] SignUpDto signInDto)
+    public async Task<ActionResult<AuthDto>> SignUp([FromBody] SignUpDto signInDto)
     {
-        var user = new UserModel(signInDto);
-        var userModel = context.Users.Add(user.ToEntity());
+        var user = new User()
+        {
+            Email = signInDto.Email,
+            UserName = signInDto.Email,
+            PhoneNumber = signInDto.PhoneNumber,
+            Name = signInDto.Name,
+        };
+        
+        var result = await userManager.CreateAsync(user, signInDto.Password);
+        
+        if (!result.Succeeded)
+        {
+            return BadRequest(result.Errors);
+        }
         
         var response = await jwtService.CreateToken(user.Email);
 
         var userRefresh = new UserRefreshToken()
         {
             RefreshToken = response.RefreshToken,
-            Email = userModel.Entity.Email
+            Email = user.Email
         };
         
         context.UserRefreshTokens.Add(userRefresh);
@@ -80,7 +98,6 @@ public class AuthController(JwtService jwtService, ApplicationDbContext context)
             return Unauthorized("Invalid attempt!");
         }
 
-        // saving refresh token to the db
         var obj = new UserRefreshToken
         {
             RefreshToken = newJwtToken.RefreshToken,
@@ -97,11 +114,5 @@ public class AuthController(JwtService jwtService, ApplicationDbContext context)
         await context.SaveChangesAsync();
 
         return Ok(newJwtToken);
-    }
-
-    [HttpGet("test-tokens/{email}")]
-    public async Task<List<UserRefreshToken>> GetTokens(string email)
-    {
-        return context.UserRefreshTokens.Where(x => x.Email == email).Select(x => x).ToList();
     }
 }

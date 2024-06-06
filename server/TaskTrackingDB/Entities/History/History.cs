@@ -1,3 +1,5 @@
+using System;
+
 namespace TaskTrackingDB.Entities.History;
 
 public class History
