@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom'
 
 const columns: BoardColumnType[] = [
     {
+        id: 0,
         name: 'To Do',
         tasks: [
             {
@@ -34,6 +35,7 @@ const columns: BoardColumnType[] = [
         ],
     },
     {
+        id: 1,
         name: 'In Progress',
         tasks: [
             {
@@ -63,6 +65,7 @@ const columns: BoardColumnType[] = [
         ],
     },
     {
+        id: 2,
         name: 'Done',
         tasks: [
             {

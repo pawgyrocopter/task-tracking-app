@@ -1,3 +1,4 @@
+import BoardAddTaskButton from './BoardAddTaskButton'
 import BoardTaskCard from './BoardTaskCard'
 import { BoardColumn as BoardColumnType, BoardTask } from './types'
 
@@ -11,10 +12,12 @@ const BoardColumn = ({ column }: { column: BoardColumnType }) => {
                 {column.tasks.map((task: BoardTask) => (
                     <BoardTaskCard key={task.id} task={task} />
                 ))}
+                <BoardAddTaskButton
+                    onClick={() =>
+                        console.log(`add task on column with id: ${column.id}`)
+                    }
+                />
             </div>
-            <button className="w-full bg-blue-500 text-white p-2 rounded-lg mt-4">
-                +
-            </button>
         </div>
     )
 }
