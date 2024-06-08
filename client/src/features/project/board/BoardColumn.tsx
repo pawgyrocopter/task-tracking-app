@@ -1,16 +1,14 @@
 import BoardTaskCard from './BoardTaskCard'
+import { BoardColumn as BoardColumnType, BoardTask } from './types'
 
-const BoardColumn = ({ column }: { column: any }) => {
+const BoardColumn = ({ column }: { column: BoardColumnType }) => {
     return (
-        <div
-            key={column.id}
-            className="w-full md:w-1/3 bg-gray-100 rounded-lg p-4 flex flex-col md:h-full"
-        >
+        <div className="w-full md:w-1/3 bg-gray-100 rounded-lg p-4 flex flex-col md:h-full">
             <h2 className="text-xl font-semibold mb-4">
-                {column.title} {column.tasks.length} of 21
+                {column.name} {column.tasks.length} of 21
             </h2>
             <div className="md:flex-grow md:overflow-auto">
-                {column.tasks.map((task: any) => (
+                {column.tasks.map((task: BoardTask) => (
                     <BoardTaskCard key={task.id} task={task} />
                 ))}
             </div>
