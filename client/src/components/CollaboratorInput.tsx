@@ -127,7 +127,7 @@ const CollaboratorInput: React.FC<CollaboratorInputProps> = ({
             ) : (
                 <AddButton
                     onClick={() => setShowInput(true)}
-                    className="w-5 h-5"
+                    className="w-5 h-5 cursor-pointer"
                 />
             )}
             {error && <p className="text-red-500 text-xs w-full">{error}</p>}

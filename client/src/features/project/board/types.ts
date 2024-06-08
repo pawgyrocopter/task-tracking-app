@@ -1,4 +1,5 @@
 export type BoardColumn = {
+    id: number
     name: string
     tasks: BoardTask[]
 }
