@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import AddButton from '@/components/AddButton'
+import AddButton from '@/components/ui/AddButton'
 import { validateEmail } from '@/utils/validation'
 
 interface CollaboratorInputProps {
@@ -136,10 +136,9 @@ const CollaboratorInput: React.FC<CollaboratorInputProps> = ({
                         autoFocus
                     />
                 ) : !singleCollaborator || collaborators.length === 0 ? (
-                    <AddButton
-                        onClick={() => setShowInput(true)}
-                        className="h-5 w-5 cursor-pointer"
-                    />
+                    <button onClick={() => setShowInput(true)}>
+                        <AddButton className="h-5 w-5 cursor-pointer" />
+                    </button>
                 ) : null}
             </div>
             <span className="h-5">
