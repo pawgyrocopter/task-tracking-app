@@ -1,4 +1,4 @@
-import AddButton from '@/components/AddButton'
+import AddButton from '@/components/ui/AddButton'
 import { useNavigate } from 'react-router-dom'
 
 const CreateProjectButton = () => {
