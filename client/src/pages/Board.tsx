@@ -44,7 +44,7 @@ const mockColumns: BoardColumnType[] = [
         name: 'In Progress',
         tasks: [
             {
-                id: '1',
+                id: '4',
                 name: 'In Progress 1',
                 description:
                     'On hold. Before saving a new tournament we should...',
@@ -52,7 +52,7 @@ const mockColumns: BoardColumnType[] = [
                 avatar: '🟣',
             },
             {
-                id: '2',
+                id: '5',
                 name: 'In Progress 2',
                 description:
                     'On hold. Before saving a new tournament we should...',
@@ -60,7 +60,7 @@ const mockColumns: BoardColumnType[] = [
                 avatar: '⚫️',
             },
             {
-                id: '3',
+                id: '6',
                 name: 'In Progress 1',
                 description:
                     'On hold. Before saving a new tournament we should...',
@@ -74,7 +74,7 @@ const mockColumns: BoardColumnType[] = [
         name: 'Done',
         tasks: [
             {
-                id: '1',
+                id: '7',
                 name: 'Done 1',
                 description:
                     'On hold. Before saving a new tournament we should...',
