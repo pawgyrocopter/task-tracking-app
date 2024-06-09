@@ -6,10 +6,10 @@ const ProgressCircle = ({ progress }: { progress: number }) => {
     }
 
     return (
-        <div className="relative z-[0] w-8 h-8">
-            <div className="absolute inset-0 rounded-full bg-gray-300 overflow-hidden">
+        <div className="relative z-[0] h-8 w-8">
+            <div className="absolute inset-0 overflow-hidden rounded-full bg-gray-300">
                 <div
-                    className={`absolute z-[0] bottom-0 left-0 w-full ${getColor()}`}
+                    className={`absolute bottom-0 left-0 z-[0] w-full ${getColor()}`}
                     style={{ height: `${Math.min(progress, 100)}%` }}
                 ></div>
             </div>

@@ -18,10 +18,10 @@ const ProjectCard = ({
             onClick={() => {
                 navigate(`/projects/${id}`)
             }}
-            className="w-full bg-white p-4 rounded-lg shadow-lg"
+            className="w-full rounded-lg bg-white p-4 shadow-lg"
         >
             {isMobile ? (
-                <div className="w-full grid grid-cols-2 gap-4 items-center">
+                <div className="grid w-full grid-cols-2 items-center gap-4">
                     <div className="flex items-center">
                         <img
                             src="project-icon.png"
@@ -30,8 +30,8 @@ const ProjectCard = ({
                         />
                         <h1 className="ml-4">{name}</h1>
                     </div>
-                    <div className="flex justify-end items-center">
-                        <div className="flex justify-center font-bold mr-4">
+                    <div className="flex items-center justify-end">
+                        <div className="mr-4 flex justify-center font-bold">
                             <p>{completed_tasks}</p>/<p>{tasks}</p>
                         </div>
                         <ProgressCircle
@@ -40,7 +40,7 @@ const ProjectCard = ({
                     </div>
                 </div>
             ) : (
-                <div className="w-full grid grid-cols-8 gap-4 items-center">
+                <div className="grid w-full grid-cols-8 items-center gap-4">
                     <div className="col-span-2 flex items-center">
                         <img
                             src="project-icon.png"
@@ -50,13 +50,13 @@ const ProjectCard = ({
                         <h1 className="ml-4 text-lg">{name}</h1>
                     </div>
                     <div className="col-span-5">
-                        <p className="truncate text-center px-2">
+                        <p className="truncate px-2 text-center">
                             {description}
                         </p>
                     </div>
-                    <div className="col-span-1 flex justify-end items-center">
-                        <div className="flex gap-2 items-center">
-                            <div className="flex font-bold justify-center items-center">
+                    <div className="col-span-1 flex items-center justify-end">
+                        <div className="flex items-center gap-2">
+                            <div className="flex items-center justify-center font-bold">
                                 <p>{completed_tasks}</p>/<p>{tasks}</p>
                             </div>
                             <ProgressCircle

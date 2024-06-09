@@ -17,7 +17,7 @@ const ProjectsPage = () => {
     }, [])
 
     return (
-        <div className="w-full h-full flex flex-col gap-4 items-center">
+        <div className="flex h-full w-full flex-col items-center gap-4">
             {isLoading ? 'Loading...' : <ProjectList projects={projects} />}
         </div>
     )

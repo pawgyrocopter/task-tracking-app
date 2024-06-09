@@ -35,33 +35,33 @@ const CreateProjectForm = () => {
         <>
             <form
                 onSubmit={handleSubmit(onSubmit)}
-                className="w-full bg-gray-300 h-full flex flex-col items-center gap-4"
+                className="flex h-full w-full flex-col items-center gap-4 bg-gray-300"
             >
-                <div className="flex flex-col gap-4 justify-center items-center">
-                    <div className="md:w-[32rem] w-[18rem]">
+                <div className="flex flex-col items-center justify-center gap-4">
+                    <div className="w-[18rem] md:w-[32rem]">
                         <input
                             {...register('name', {
                                 required: 'Project name is required',
                             })}
                             type="text"
                             placeholder="Project Name"
-                            className="border px-2 placeholder:text-gray-700 text-lg w-full h-[2.25rem] rounded-lg shadow-lg"
+                            className="h-[2.25rem] w-full rounded-lg border px-2 text-lg shadow-lg placeholder:text-gray-700"
                         />
-                        <p className="text-red-500 text-xs">
+                        <p className="text-xs text-red-500">
                             {errors.name?.message}
                         </p>
                     </div>
-                    <div className="md:w-[32rem] w-[18rem]">
+                    <div className="w-[18rem] md:w-[32rem]">
                         <textarea
                             {...register('description')}
                             placeholder="Description"
-                            className="border px-2 placeholder:text-gray-700 text-lg w-full h-[6rem] resize-none rounded-lg shadow-lg"
+                            className="h-[6rem] w-full resize-none rounded-lg border px-2 text-lg shadow-lg placeholder:text-gray-700"
                         />
-                        <p className="text-red-500 text-xs">
+                        <p className="text-xs text-red-500">
                             {errors.description?.message}
                         </p>
                     </div>
-                    <div className="w-[18rem] md:w-[32rem] flex justify-between">
+                    <div className="flex w-[18rem] justify-between md:w-[32rem]">
                         <div className="flex flex-col">
                             <input
                                 {...register('startDate', {
@@ -77,9 +77,9 @@ const CreateProjectForm = () => {
                                     )
                                     e.target.value = formattedDate
                                 }}
-                                className="border px-2 placeholder:text-gray-700 text-lg w-[8.5rem] md:w-[15.5rem] h-[2.25rem] rounded-lg shadow-lg"
+                                className="h-[2.25rem] w-[8.5rem] rounded-lg border px-2 text-lg shadow-lg placeholder:text-gray-700 md:w-[15.5rem]"
                             />
-                            <p className="text-red-500 text-xs">
+                            <p className="text-xs text-red-500">
                                 {errors.startDate?.message}
                             </p>
                         </div>
@@ -98,9 +98,9 @@ const CreateProjectForm = () => {
                                     )
                                     e.target.value = formattedDate
                                 }}
-                                className="border px-2 placeholder:text-gray-700 text-lg w-[8.5rem] md:w-[15.5rem] h-[2.25rem] rounded-lg shadow-lg"
+                                className="h-[2.25rem] w-[8.5rem] rounded-lg border px-2 text-lg shadow-lg placeholder:text-gray-700 md:w-[15.5rem]"
                             />
-                            <p className="text-red-500 text-xs">
+                            <p className="text-xs text-red-500">
                                 {errors.endDate?.message}
                             </p>
                         </div>
@@ -114,11 +114,11 @@ const CreateProjectForm = () => {
                 </div>
                 <button
                     disabled={isSubmitting}
-                    className="mt-[1rem] text-xl text-black bg-white shadow-lg rounded-lg hover:bg-gray-300 duration-300 w-[10rem] h-[3rem] disabled:cursor-not-allowed"
+                    className="mt-[1rem] h-[3rem] w-[10rem] rounded-lg bg-white text-xl text-black shadow-lg duration-300 hover:bg-gray-300 disabled:cursor-not-allowed"
                 >
                     {isSubmitting ? 'Loading...' : 'Submit'}
                 </button>
-                <p className="text-red-500 text-xs h-4">
+                <p className="h-4 text-xs text-red-500">
                     {errors.root?.message}
                 </p>
             </form>

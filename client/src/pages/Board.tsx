@@ -90,7 +90,7 @@ const BoardPage = () => {
     }, [])
 
     return (
-        <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 overflow-y-auto h-full">
+        <div className="flex h-full flex-col space-y-4 overflow-y-auto md:flex-row md:space-x-4 md:space-y-0">
             {columns.map((column, idx) => (
                 <BoardColumn key={idx} column={column} />
             ))}

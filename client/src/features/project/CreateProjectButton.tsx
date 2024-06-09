@@ -7,7 +7,7 @@ const CreateProjectButton = () => {
     return (
         <button
             onClick={() => navigate('/create-project')}
-            className="rounded-xl w-full md:w-auto flex items-center gap-2 font-bold shadow-lg min-w-[14rem] px-2 py-2 bg-white"
+            className="flex w-full min-w-[14rem] items-center gap-2 rounded-xl bg-white px-2 py-2 font-bold shadow-lg md:w-auto"
         >
             <AddButton />
             <h1>Create new project</h1>
