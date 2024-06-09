@@ -52,7 +52,7 @@ const Modal: React.FC<ModalProps> = ({
 
     return (
         <div
-            className={`fixed inset-0 z-50 p-8 flex items-center justify-center ${
+            className={`fixed inset-0 z-50 flex items-center justify-center p-8 ${
                 visible ? 'visible' : 'invisible'
             }`}
         >
@@ -63,10 +63,10 @@ const Modal: React.FC<ModalProps> = ({
 
             <div className={mergedInnerClassName}>
                 <button
-                    className="m-4 absolute right-0 top-0"
+                    className="absolute right-0 top-0 m-4"
                     onClick={onClose}
                 >
-                    <CloseIcon className='w-3.5 h-3.5 md:w-5 md:h-5' />
+                    <CloseIcon className="h-3.5 w-3.5 md:h-5 md:w-5" />
                 </button>
                 {children}
             </div>

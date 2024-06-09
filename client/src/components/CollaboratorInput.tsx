@@ -91,10 +91,10 @@ const CollaboratorInput: React.FC<CollaboratorInputProps> = ({
     }
 
     return (
-        <div className=" flex flex-col  w-full">
-            <div className="border shadow-lg flex flex-wrap rounded-lg  h-[2.25rem] items-center gap-2 px-2 w-full">
+        <div className="flex w-full flex-col">
+            <div className="flex h-[2.25rem] w-full flex-wrap items-center gap-2 rounded-lg border px-2 shadow-lg">
                 {collaborators.length === 0 && (
-                    <p className="text-gray-700 text-lg">{placeholder}</p>
+                    <p className="text-lg text-gray-700">{placeholder}</p>
                 )}
                 {collaborators.map((email, index) => (
                     <div key={index} className="flex items-center">
@@ -107,12 +107,12 @@ const CollaboratorInput: React.FC<CollaboratorInputProps> = ({
                                 }
                                 onBlur={handleBlur}
                                 onKeyDown={handleKeyPress}
-                                className="border px-2 placeholder:text-gray-700 text-lg rounded-lg shadow-lg"
+                                className="rounded-lg border px-2 text-lg shadow-lg placeholder:text-gray-700"
                                 autoFocus
                             />
                         ) : (
                             <span
-                                className="text-gray-700 text-lg cursor-pointer"
+                                className="cursor-pointer text-lg text-gray-700"
                                 onClick={() => handleEditCollaborator(index)}
                             >
                                 {email}
@@ -132,19 +132,19 @@ const CollaboratorInput: React.FC<CollaboratorInputProps> = ({
                                 handleAddCollaborator()
                             }
                         }}
-                        className="border w-[10rem] px-2 placeholder:text-gray-700 text-lg rounded-lg shadow-lg"
+                        className="w-[10rem] rounded-lg border px-2 text-lg shadow-lg placeholder:text-gray-700"
                         autoFocus
                     />
                 ) : !singleCollaborator || collaborators.length === 0 ? (
                     <AddButton
                         onClick={() => setShowInput(true)}
-                        className="w-5 h-5 cursor-pointer"
+                        className="h-5 w-5 cursor-pointer"
                     />
                 ) : null}
             </div>
             <span className="h-5">
                 {error && (
-                    <p className="text-red-500 text-xs w-full">{error}</p>
+                    <p className="w-full text-xs text-red-500">{error}</p>
                 )}
             </span>
         </div>
