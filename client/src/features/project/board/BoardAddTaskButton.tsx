@@ -1,4 +1,4 @@
-import AddButton from '@/components/AddButton'
+import AddButton from '@/components/ui/AddButton'
 
 const BoardAddTaskButton = ({ onClick }: { onClick: () => void }) => {
     return (
