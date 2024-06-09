@@ -1,9 +1,20 @@
 import { useProjectBoard } from '@/context/ProjectBoardContext'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import '@/assets/css/delete-area.css'
 
 const DeleteTaskArea = () => {
     const [active, setActive] = useState<boolean>(false)
+    const [isAnimating, setIsAnimating] = useState<boolean>(false)
     const { draggingTask } = useProjectBoard()
+
+    useEffect(() => {
+        if (draggingTask) {
+            setIsAnimating(true)
+        } else if (isAnimating) {
+            const timer = setTimeout(() => setIsAnimating(false), 200)
+            return () => clearTimeout(timer)
+        }
+    }, [draggingTask, isAnimating])
 
     const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault()
@@ -20,6 +31,10 @@ const DeleteTaskArea = () => {
         setActive(false)
     }
 
+    if (!draggingTask && !isAnimating) {
+        return null
+    }
+
     return (
         <div
             onDrop={handleDragEnd}
@@ -29,7 +44,9 @@ const DeleteTaskArea = () => {
                 active
                     ? 'border-red-800 bg-red-800/20 text-red-500'
                     : 'border-neutral-800 bg-neutral-800/20 text-neutral-500'
-            } } flex items-center justify-center`}
+            } flex items-center justify-center ${
+                draggingTask ? 'area-enter' : 'area-leave'
+            }`}
         >
             <IconTrashFill
                 className={`h-8 w-8 md:h-10 md:w-10 ${active && 'animate-bounce'}`}

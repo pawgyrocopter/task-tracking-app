@@ -1,9 +1,9 @@
 @import './animations.css';
 
-.modal-enter {
+.area-enter {
     animation: fadeIn 0.3s forwards;
 }
 
-.modal-leave {
+.area-leave {
     animation: fadeOut 0.3s forwards;
 }
