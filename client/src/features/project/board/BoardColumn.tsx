@@ -7,6 +7,7 @@ import { useProjectBoard } from '@/context/ProjectBoardContext'
 const BoardColumn = ({ column }: { column: BoardColumnType }) => {
     const {
         showModal,
+        currentColumnId,
         handleOpenModal,
         handleCloseModal,
         handleDragStart,
@@ -28,10 +29,12 @@ const BoardColumn = ({ column }: { column: BoardColumnType }) => {
                         task={task}
                     />
                 ))}
-                <BoardAddTaskButton onClick={handleOpenModal} />
+                <BoardAddTaskButton
+                    onClick={() => handleOpenModal(column.id)}
+                />
             </div>
             <AddTaskModal
-                columnName={getColumnName(column.id)}
+                columnName={getColumnName(currentColumnId)}
                 show={showModal}
                 onClose={handleCloseModal}
             />

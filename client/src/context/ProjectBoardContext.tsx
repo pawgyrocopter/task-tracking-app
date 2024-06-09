@@ -6,7 +6,8 @@ type ProjectBoardContextType = {
     setColumns: (columns: BoardColumn[]) => void
     draggingTask: BoardTask | null
     showModal: boolean
-    handleOpenModal: () => void
+    currentColumnId: number
+    handleOpenModal: (columnId: number) => void
     handleCloseModal: () => void
     handleDragStart: (task: BoardTask) => void
     handleDragEnd: () => void
@@ -22,8 +23,10 @@ export const ProjectBoardProvider = ({
     const [showModal, setShowModal] = useState(false)
     const [draggingTask, setDraggingTask] = useState<BoardTask | null>(null)
     const [columns, setColumns] = useState<BoardColumn[]>([])
+    const [currentColumnId, setCurrentColumnId] = useState<number>(-1)
 
-    const handleOpenModal = () => {
+    const handleOpenModal = (columnId: number) => {
+        setCurrentColumnId(columnId)
         setShowModal(true)
     }
 
@@ -46,6 +49,7 @@ export const ProjectBoardProvider = ({
                 setColumns,
                 draggingTask,
                 showModal,
+                currentColumnId,
                 handleOpenModal,
                 handleCloseModal,
                 handleDragStart,
