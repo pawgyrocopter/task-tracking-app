@@ -5,12 +5,12 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const Button: React.FC<ButtonProps> = ({ children, onClick, className }) => {
-    const mergedClassname = twMerge(
+    const mergedClassName = twMerge(
         'p-2 bg-white text-[1.35rem] text-black shadow-lg rounded-full w-full',
         className
     )
     return (
-        <button onClick={onClick} className={mergedClassname}>
+        <button onClick={onClick} className={mergedClassName}>
             {children}
         </button>
     )
