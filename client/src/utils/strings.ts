@@ -7,3 +7,8 @@ export function formatDate(date: Date): string {
     }
     return ''
 }
+
+// make first letter uppercased and others lowercased
+export function capitalizeString(str: string): string {
+    return str.charAt(0).toUpperCase() + str.substring(1).toLowerCase()
+}

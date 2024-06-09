@@ -26,9 +26,26 @@ const BoardColumn = ({ column }: { column: BoardColumnType }) => {
                 ))}
                 <BoardAddTaskButton onClick={handleOpenModal} />
             </div>
-            <AddTaskModal show={showModal} onClose={handleCloseModal} />
+            <AddTaskModal
+                columnName={getColumnName(column.id)}
+                show={showModal}
+                onClose={handleCloseModal}
+            />
         </div>
     )
+}
+
+function getColumnName(columnId: number): string {
+    switch (columnId) {
+        case 0:
+            return 'To do'
+        case 1:
+            return 'In progress'
+        case 2:
+            return 'Done'
+        default:
+            return ''
+    }
 }
 
 export default BoardColumn
