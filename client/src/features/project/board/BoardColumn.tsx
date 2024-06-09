@@ -1,19 +1,17 @@
-import { useState } from 'react'
 import BoardAddTaskButton from './BoardAddTaskButton'
 import BoardTaskCard from './BoardTaskCard'
 import { BoardColumn as BoardColumnType, BoardTask } from './types'
 import AddTaskModal from './AddTaskModal'
+import { useProjectBoard } from '@/context/ProjectBoardContext'
 
 const BoardColumn = ({ column }: { column: BoardColumnType }) => {
-    const [showModal, setShowModal] = useState(false)
-
-    const handleOpenModal = () => {
-        setShowModal(true)
-    }
-
-    const handleCloseModal = () => {
-        setShowModal(false)
-    }
+    const {
+        showModal,
+        handleOpenModal,
+        handleCloseModal,
+        handleDragStart,
+        handleDragEnd,
+    } = useProjectBoard()
 
     return (
         <div className="flex w-full flex-col rounded-lg bg-gray-100 p-4 md:h-full md:w-1/3">
@@ -22,7 +20,13 @@ const BoardColumn = ({ column }: { column: BoardColumnType }) => {
             </h2>
             <div className="md:flex-grow md:overflow-auto">
                 {column.tasks.map((task: BoardTask) => (
-                    <BoardTaskCard key={task.id} task={task} />
+                    <BoardTaskCard
+                        handleDragStart={handleDragStart}
+                        handleDragEnd={handleDragEnd}
+                        columnId={column.id}
+                        key={task.id}
+                        task={task}
+                    />
                 ))}
                 <BoardAddTaskButton onClick={handleOpenModal} />
             </div>
