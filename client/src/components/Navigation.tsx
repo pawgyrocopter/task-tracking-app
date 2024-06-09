@@ -39,9 +39,9 @@ const Navigation = ({ title }: { title: string }) => {
     return (
         <>
             {isMobile && (
-                <header className="w-full flex items-center px-2 pt-2">
+                <header className="flex w-full items-center px-2 pt-2">
                     <button
-                        className="focus:outline-none flex-1"
+                        className="flex-1 focus:outline-none"
                         onClick={toggleMenu}
                     >
                         {isMenuOpen ? (
@@ -50,17 +50,17 @@ const Navigation = ({ title }: { title: string }) => {
                             <Bars3Icon className="h-8 w-8 text-black" />
                         )}
                     </button>
-                    <h1 className="text-2xl text-center">{title}</h1>
+                    <h1 className="text-center text-2xl">{title}</h1>
                     <div className="flex-1"></div>
                 </header>
             )}
 
             <aside
-                className={`md:static fixed top-0 left-0 z-[50] w-full md:w-[15rem] h-full bg-gray-500 text-white p-4 transform ${
+                className={`fixed left-0 top-0 z-[50] h-full w-full transform bg-gray-500 p-4 text-white md:static md:w-[15rem] ${
                     isMenuOpen ? 'translate-x-0' : '-translate-x-full'
                 } transition-transform duration-300 ease-in-out`}
             >
-                <nav className="h-full flex flex-col justify-between">
+                <nav className="flex h-full flex-col justify-between">
                     <ul className="flex flex-col items-center">
                         <li className="mb-4">
                             <Link

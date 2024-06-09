@@ -35,12 +35,12 @@ const Login = ({
     }
 
     return (
-        <div className="w-[22rem] bg-gray-500 h-[22rem] rounded-lg flex flex-col justify-center items-center">
+        <div className="flex h-[22rem] w-[22rem] flex-col items-center justify-center rounded-lg bg-gray-500">
             <form
                 onSubmit={handleSubmit(onSubmit)}
-                className="w-full h-full flex flex-col mt-[1rem] items-center justify-center gap-2"
+                className="mt-[1rem] flex h-full w-full flex-col items-center justify-center gap-2"
             >
-                <div className="flex flex-col gap-1 justify-center items-center">
+                <div className="flex flex-col items-center justify-center gap-1">
                     <div className="w-[16rem]">
                         <input
                             {...register('email', {
@@ -49,9 +49,9 @@ const Login = ({
                             })}
                             type="email"
                             placeholder="Email"
-                            className="border px-1 text-sm w-[16rem] h-[1.5rem] rounded-sm"
+                            className="h-[1.5rem] w-[16rem] rounded-sm border px-1 text-sm"
                         />
-                        <p className="text-red-500 text-xs">
+                        <p className="text-xs text-red-500">
                             {errors.email?.message}
                         </p>
                     </div>
@@ -63,26 +63,26 @@ const Login = ({
                             })}
                             type="password"
                             placeholder="Password"
-                            className="border px-1 text-sm w-[16rem] h-[1.5rem] rounded-sm"
+                            className="h-[1.5rem] w-[16rem] rounded-sm border px-1 text-sm"
                         />
-                        <p className="text-red-500 text-xs">
+                        <p className="text-xs text-red-500">
                             {errors.password?.message}
                         </p>
                     </div>
                 </div>
                 <button
                     disabled={isSubmitting}
-                    className="text-sm bg-gray-300 rounded-lg hover:bg-white duration-300 w-[5rem] h-[2rem] disabled:cursor-not-allowed"
+                    className="h-[2rem] w-[5rem] rounded-lg bg-gray-300 text-sm duration-300 hover:bg-white disabled:cursor-not-allowed"
                 >
                     {isSubmitting ? 'Loading...' : 'Login'}
                 </button>
-                <p className="text-red-500 text-xs h-4">
+                <p className="h-4 text-xs text-red-500">
                     {errors.root?.message}
                 </p>
             </form>
             <button
                 onClick={() => setIsLoginForm(false)}
-                className="text-sm my-4"
+                className="my-4 text-sm"
             >
                 Haven't registered yet ?
             </button>

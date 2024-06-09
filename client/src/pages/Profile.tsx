@@ -2,34 +2,34 @@ import Button from '@/components/ui/Button'
 
 const ProfilePage = () => {
     return (
-        <div className="w-full items-center h-full flex flex-col p-4 gap-4">
+        <div className="flex h-full w-full flex-col items-center gap-4 p-4">
             <img src="account-avatar.svg" className="w-[100px] md:w-[150px]" />
             <form
                 onSubmit={(e) => e.preventDefault()}
-                className="md:max-w-[40rem] w-full h-full flex flex-col items-center gap-2"
+                className="flex h-full w-full flex-col items-center gap-2 md:max-w-[40rem]"
             >
                 <input
                     placeholder="Name"
                     type="text"
-                    className="border px-2 placeholder:text-gray-700 text-lg w-full h-[2.25rem] rounded-lg shadow-lg"
+                    className="h-[2.25rem] w-full rounded-lg border px-2 text-lg shadow-lg placeholder:text-gray-700"
                 />
                 <input
                     placeholder="Email"
                     type="text"
-                    className="border px-2 placeholder:text-gray-700 text-lg w-full h-[2.25rem] rounded-lg shadow-lg"
+                    className="h-[2.25rem] w-full rounded-lg border px-2 text-lg shadow-lg placeholder:text-gray-700"
                 />
                 <input
                     placeholder="Phone number"
                     type="text"
-                    className="border px-2 placeholder:text-gray-700 text-lg w-full h-[2.25rem] rounded-lg shadow-lg"
+                    className="h-[2.25rem] w-full rounded-lg border px-2 text-lg shadow-lg placeholder:text-gray-700"
                 />
                 <input
                     placeholder="Password"
                     type="password"
-                    className="border px-2 placeholder:text-gray-700 text-lg w-full h-[2.25rem] rounded-lg shadow-lg"
+                    className="h-[2.25rem] w-full rounded-lg border px-2 text-lg shadow-lg placeholder:text-gray-700"
                 />
 
-                <Button className="w-[10rem] mt-[2rem]">Submit</Button>
+                <Button className="mt-[2rem] w-[10rem]">Submit</Button>
             </form>
         </div>
     )
