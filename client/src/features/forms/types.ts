@@ -18,3 +18,12 @@ export type CreateProjectFormFields = {
     endDate: Date
     colaborators: string[]
 }
+
+export type CreateTaskFormFields = {
+    name: string
+    description: string
+    priority: string
+    startDate: Date
+    endDate: Date
+    assignee: string
+}

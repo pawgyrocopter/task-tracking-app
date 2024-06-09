@@ -12,4 +12,12 @@ export type BoardTask = {
     avatar: string
 }
 
-export type TaskPriority = 'HIGHEST' | 'HIGH' | 'MEDIUM' | 'LOW' | 'LOWEST'
+export const TaskPriorities = [
+    'HIGHEST',
+    'HIGH',
+    'MEDIUM',
+    'LOW',
+    'LOWEST',
+] as const
+
+export type TaskPriority = (typeof TaskPriorities)[number]
