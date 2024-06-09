@@ -2,18 +2,18 @@ import { BoardTask, TaskPriority } from './types'
 
 const BoardTaskCard = ({ task }: { task: BoardTask }) => {
     return (
-        <div key={task.id} className="bg-white p-4 mb-4 rounded-lg shadow-md">
-            <div className="flex gap-3 items-center">
-                <h3 className="font-semibold mb-2">{task.name}</h3>
+        <div key={task.id} className="mb-4 rounded-lg bg-white p-4 shadow-md">
+            <div className="flex items-center gap-3">
+                <h3 className="mb-2 font-semibold">{task.name}</h3>
                 <div
                     className={`h-3 w-3 rounded-full ${getPriorityColor(
                         task.priority
                     )} mb-2`}
                 ></div>
             </div>
-            <p className="text-sm text-gray-600 mb-4">{task.description}</p>
+            <p className="mb-4 text-sm text-gray-600">{task.description}</p>
             <div className="flex space-x-2">
-                <div className="h-6 w-6 rounded-full bg-gray-200 flex items-center justify-center">
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-200">
                     {task.avatar}
                 </div>
             </div>

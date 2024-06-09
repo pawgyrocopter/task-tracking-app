@@ -10,7 +10,7 @@ const ProjectList = ({ projects }: { projects: Project[] }) => {
 
     return (
         <>
-            <div className="w-full flex flex-row gap-4 md:gap-0 justify-between items-start">
+            <div className="flex w-full flex-row items-start justify-between gap-4 md:gap-0">
                 <div className="flex-1">
                     <CreateProjectButton />
                 </div>

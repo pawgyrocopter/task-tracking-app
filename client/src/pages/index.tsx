@@ -14,7 +14,7 @@ const HomePage = () => {
     }
 
     return (
-        <div className="flex flex-col justify-center items-center h-full">
+        <div className="flex h-full flex-col items-center justify-center">
             {isLoginForm ? (
                 <Login setIsLoginForm={setIsLoginForm} />
             ) : (
