@@ -7,7 +7,7 @@ const ProtectedLayout = () => {
     const title = useTitleFromPathname()
 
     return (
-        <div className="flex md:flex-row flex-col h-screen">
+        <div className="flex h-screen flex-col md:flex-row">
             <Navigation title={title} />
             <main className="container">
                 <Page title={title}>
