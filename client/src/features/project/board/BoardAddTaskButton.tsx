@@ -1,13 +1,15 @@
 import AddButton from '@/components/ui/AddButton'
+import { motion } from 'framer-motion'
 
 const BoardAddTaskButton = ({ onClick }: { onClick: () => void }) => {
     return (
-        <button
+        <motion.button
+            layout
             onClick={onClick}
             className="flex w-full items-center justify-center rounded-lg border p-4"
         >
             <AddButton />
-        </button>
+        </motion.button>
     )
 }
 
