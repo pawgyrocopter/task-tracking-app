@@ -1,19 +1,21 @@
 import { motion } from 'framer-motion'
-import { BoardTask, TaskPriority } from './types'
+import { BoardColumn, BoardTask, TaskPriority } from './types'
+import DropIndicator from './DropIndicator'
 
 const BoardTaskCard = ({
-    columnId,
+    column,
     task,
     handleDragStart,
     handleDragEnd,
 }: {
-    columnId: number
+    column: BoardColumn
     task: BoardTask
     handleDragStart: (task: BoardTask) => void
     handleDragEnd: () => void
 }) => {
     return (
         <>
+            <DropIndicator beforeId={task.id} columnId={column.id} />
             <motion.div
                 layout
                 layoutId={task.id}
@@ -21,7 +23,7 @@ const BoardTaskCard = ({
                 onDragEnd={handleDragEnd}
                 onDragStart={() => handleDragStart(task)}
                 draggable={true}
-                className="my-4 cursor-grab rounded-lg bg-white p-4 shadow-md active:cursor-grabbing"
+                className="cursor-grab rounded-lg bg-white p-4 shadow-md active:cursor-grabbing"
             >
                 <div className="flex items-center gap-3">
                     <h3 className="mb-2 font-semibold">{task.name}</h3>
@@ -38,6 +40,7 @@ const BoardTaskCard = ({
                     </div>
                 </div>
             </motion.div>
+            <DropIndicator beforeId={'-1'} columnId={column.id} />
         </>
     )
 }
