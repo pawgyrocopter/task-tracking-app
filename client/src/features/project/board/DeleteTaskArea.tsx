@@ -12,7 +12,7 @@ const DeleteTaskArea = () => {
         if (draggingTask) {
             setIsAnimating(true)
         } else if (isAnimating) {
-            const timer = setTimeout(() => setIsAnimating(false), 200)
+            const timer = setTimeout(() => setIsAnimating(false), 300)
             return () => clearTimeout(timer)
         }
     }, [draggingTask, isAnimating])
@@ -55,7 +55,7 @@ const DeleteTaskArea = () => {
             onDrop={handleDragEnd}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
-            className={`sticky bottom-5 z-[10] h-60 w-full place-content-center border-2 text-3xl lg:h-32 ${
+            className={`absolute bottom-0 left-0 z-[10] h-60 w-full place-content-center border-2 text-3xl lg:h-32 ${
                 active
                     ? 'border-red-800 bg-red-800/20 text-red-500'
                     : 'border-neutral-800 bg-neutral-800/20 text-neutral-500'

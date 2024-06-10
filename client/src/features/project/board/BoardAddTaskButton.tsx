@@ -6,7 +6,7 @@ const BoardAddTaskButton = ({ onClick }: { onClick: () => void }) => {
         <motion.button
             layout
             onClick={onClick}
-            className="flex w-full items-center justify-center rounded-lg border p-4"
+            className="flex w-full items-center justify-center rounded-lg border-2 border-gray-500 p-4"
         >
             <AddButton />
         </motion.button>
