@@ -105,7 +105,7 @@ const BoardContent = () => {
 
     return (
         <div className="flex h-full w-full flex-col">
-            <div className="flex flex-grow flex-col overflow-y-scroll md:flex-row">
+            <div className="flex flex-grow md:gap-4 flex-col overflow-y-scroll md:flex-row">
                 {columns?.map((column, idx) => (
                     <BoardColumn key={idx} column={column} />
                 ))}
