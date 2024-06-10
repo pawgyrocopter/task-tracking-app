@@ -11,6 +11,9 @@ const BoardColumn = ({ column }: { column: BoardColumnType }) => {
     const {
         showModal,
         currentColumnId,
+        draggingTask,
+        columns,
+        setColumns,
         handleOpenModal,
         handleCloseModal,
         handleDragStart,
@@ -28,9 +31,58 @@ const BoardColumn = ({ column }: { column: BoardColumnType }) => {
         clearHighlights(column)
     }
 
-    const handleDragDrop = () => {
+    const handleDragDrop = (e: React.DragEvent<HTMLDivElement>) => {
         setIsActive(false)
         clearHighlights(column)
+
+        const taskId = draggingTask?.id
+
+        if (taskId) {
+            const indicators = getIndicators(column)
+            const { element } = getNearestIndicators(e, indicators)
+
+            const columnId = Number(element.dataset.column || '-1')
+            const beforeId = element.dataset.before || '-1'
+
+            if (columnId !== -1) {
+                const updatedColumns = columns.map((col) => {
+                    // remove draggingTask from its original column
+                    let tasks = col.tasks.filter((task) => task.id !== taskId)
+
+                    // add draggingTask to the new column at the correct position
+                    if (col.id === columnId) {
+                        if (beforeId === '-1') {
+                            // put task at the end if 'before' is -1
+                            tasks = [...tasks, draggingTask]
+                        } else {
+                            // find index of the beforeId task
+                            const beforeIndex = tasks.findIndex(
+                                (task) => task.id === beforeId
+                            )
+                            if (beforeIndex !== -1) {
+                                tasks = [
+                                    ...tasks.slice(0, beforeIndex),
+                                    draggingTask,
+                                    ...tasks.slice(beforeIndex),
+                                ]
+                            } else {
+                                // put task at the end if beforeId is not found
+                                tasks = [...tasks, draggingTask]
+                            }
+                        }
+                    }
+
+                    return {
+                        ...col,
+                        tasks,
+                    }
+                })
+
+                setColumns(updatedColumns)
+            }
+        }
+
+        handleDragEnd() // call this function to hide delete area
     }
 
     return (
@@ -46,13 +98,14 @@ const BoardColumn = ({ column }: { column: BoardColumnType }) => {
                 onDrop={handleDragDrop}
                 className="md:flex-grow md:overflow-auto"
             >
-                {column.tasks.map((task: BoardTask) => (
+                {column.tasks.map((task: BoardTask, index) => (
                     <BoardTaskCard
                         handleDragStart={handleDragStart}
                         handleDragEnd={handleDragEnd}
                         column={column}
                         key={task.id}
                         task={task}
+                        isLastCard={index === column.tasks.length - 1}
                     />
                 ))}
                 <BoardAddTaskButton
@@ -70,7 +123,7 @@ const BoardColumn = ({ column }: { column: BoardColumnType }) => {
 
 interface Indicator {
     offset: number
-    element: Element
+    element: HTMLElement
 }
 
 const highlightIndicatior = (
@@ -82,22 +135,22 @@ const highlightIndicatior = (
     const el = getNearestIndicators(e, indicators)
 
     if (el) {
-        ;(el.element as HTMLElement).style.opacity = '1'
+        el.element.style.opacity = '1'
     }
 }
 
 const clearHighlights = (column: BoardColumnType) => {
     const indicators = getIndicators(column)
 
-    indicators.forEach((i: Element) => {
-        ;(i as HTMLElement).style.opacity = '0'
+    indicators.forEach((i: HTMLElement) => {
+        i.style.opacity = '0'
     })
 }
 
 const getNearestIndicators = (
     e: React.DragEvent<HTMLDivElement>,
-    indicators: Element[]
-): Indicator | null => {
+    indicators: HTMLElement[]
+): Indicator => {
     const DISTANCE_OFFSET = 80
 
     const el = indicators.reduce<Indicator>(
@@ -120,7 +173,7 @@ const getNearestIndicators = (
     return el
 }
 
-const getIndicators = (column: BoardColumnType): Element[] => {
+const getIndicators = (column: BoardColumnType): HTMLElement[] => {
     return Array.from(document.querySelectorAll(`[data-column="${column.id}"]`))
 }
 
