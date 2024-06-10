@@ -4,6 +4,7 @@ import { BoardColumn as BoardColumnType, BoardTask } from './types'
 import AddTaskModal from './AddTaskModal'
 import { useProjectBoard } from '@/context/ProjectBoardContext'
 import { useState } from 'react'
+import DropIndicator from './DropIndicator'
 
 const BoardColumn = ({ column }: { column: BoardColumnType }) => {
     const [isActive, setIsActive] = useState<boolean>(false)
@@ -108,6 +109,9 @@ const BoardColumn = ({ column }: { column: BoardColumnType }) => {
                         isLastCard={index === column.tasks.length - 1}
                     />
                 ))}
+                {column.tasks.length === 0 && (
+                    <DropIndicator beforeId="-1" columnId={column.id} />
+                )}
                 <BoardAddTaskButton
                     onClick={() => handleOpenModal(column.id)}
                 />
