@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion'
 import { BoardTask, TaskPriority } from './types'
 
 const BoardTaskCard = ({
@@ -13,7 +14,9 @@ const BoardTaskCard = ({
 }) => {
     return (
         <>
-            <div
+            <motion.div
+                layout
+                layoutId={task.id}
                 key={task.id}
                 onDragEnd={handleDragEnd}
                 onDragStart={() => handleDragStart(task)}
@@ -34,7 +37,7 @@ const BoardTaskCard = ({
                         {task.avatar}
                     </div>
                 </div>
-            </div>
+            </motion.div>
         </>
     )
 }
