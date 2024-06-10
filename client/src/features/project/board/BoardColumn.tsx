@@ -19,15 +19,18 @@ const BoardColumn = ({ column }: { column: BoardColumnType }) => {
 
     const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault()
+        highlightIndicatior(e, column)
         setIsActive(true)
     }
 
     const handleDragLeave = () => {
         setIsActive(false)
+        clearHighlights(column)
     }
 
     const handleDragDrop = () => {
         setIsActive(false)
+        clearHighlights(column)
     }
 
     return (
@@ -47,7 +50,7 @@ const BoardColumn = ({ column }: { column: BoardColumnType }) => {
                     <BoardTaskCard
                         handleDragStart={handleDragStart}
                         handleDragEnd={handleDragEnd}
-                        columnId={column.id}
+                        column={column}
                         key={task.id}
                         task={task}
                     />
@@ -63,6 +66,62 @@ const BoardColumn = ({ column }: { column: BoardColumnType }) => {
             />
         </div>
     )
+}
+
+interface Indicator {
+    offset: number
+    element: Element
+}
+
+const highlightIndicatior = (
+    e: React.DragEvent<HTMLDivElement>,
+    column: BoardColumnType
+) => {
+    const indicators = getIndicators(column)
+    clearHighlights(column)
+    const el = getNearestIndicators(e, indicators)
+
+    if (el) {
+        ;(el.element as HTMLElement).style.opacity = '1'
+    }
+}
+
+const clearHighlights = (column: BoardColumnType) => {
+    const indicators = getIndicators(column)
+
+    indicators.forEach((i: Element) => {
+        ;(i as HTMLElement).style.opacity = '0'
+    })
+}
+
+const getNearestIndicators = (
+    e: React.DragEvent<HTMLDivElement>,
+    indicators: Element[]
+): Indicator | null => {
+    const DISTANCE_OFFSET = 80
+
+    const el = indicators.reduce<Indicator>(
+        (closest, child) => {
+            const box = child.getBoundingClientRect()
+            const offset = e.clientY - box.top - DISTANCE_OFFSET
+
+            if (offset < 0 && offset > closest.offset) {
+                return { offset: offset, element: child }
+            } else {
+                return closest
+            }
+        },
+        {
+            offset: Number.NEGATIVE_INFINITY,
+            element: indicators[indicators.length - 1],
+        }
+    )
+
+    return el
+}
+
+const getIndicators = (column: BoardColumnType): Element[] => {
+    return Array.from(document.querySelectorAll(`[data-column="${column.id}"]`))
 }
 
 function getColumnName(columnId: number): string {
