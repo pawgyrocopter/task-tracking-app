@@ -7,11 +7,13 @@ const BoardTaskCard = ({
     task,
     handleDragStart,
     handleDragEnd,
+    isLastCard,
 }: {
     column: BoardColumn
     task: BoardTask
     handleDragStart: (task: BoardTask) => void
     handleDragEnd: () => void
+    isLastCard: boolean
 }) => {
     return (
         <>
@@ -40,7 +42,7 @@ const BoardTaskCard = ({
                     </div>
                 </div>
             </motion.div>
-            <DropIndicator beforeId={'-1'} columnId={column.id} />
+            {isLastCard && <DropIndicator beforeId={'-1'} columnId={column.id} />}
         </>
     )
 }
