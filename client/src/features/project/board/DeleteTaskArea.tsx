@@ -5,7 +5,8 @@ import '@/assets/css/delete-area.css'
 const DeleteTaskArea = () => {
     const [active, setActive] = useState<boolean>(false)
     const [isAnimating, setIsAnimating] = useState<boolean>(false)
-    const { columns, setColumns, draggingTask } = useProjectBoard()
+    const { columns, setColumns, draggingTask, setDraggingTask } =
+        useProjectBoard()
 
     useEffect(() => {
         if (draggingTask) {
@@ -39,9 +40,10 @@ const DeleteTaskArea = () => {
             return { ...column, tasks: newTasks }
         })
         setColumns(newColumns)
+        setActive(false)
+        setDraggingTask(null)
         console.log('task to delete', draggingTask)
         // make delete request and update tasks locally
-        setActive(false)
     }
 
     if (!draggingTask && !isAnimating) {

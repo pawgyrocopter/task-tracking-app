@@ -4,6 +4,7 @@ import React, { createContext, useState, useContext } from 'react'
 type ProjectBoardContextType = {
     columns: BoardColumn[]
     setColumns: (columns: BoardColumn[]) => void
+    setDraggingTask: (boardTask: BoardTask | null) => void
     draggingTask: BoardTask | null
     showModal: boolean
     currentColumnId: number
@@ -48,6 +49,7 @@ export const ProjectBoardProvider = ({
                 columns,
                 setColumns,
                 draggingTask,
+                setDraggingTask,
                 showModal,
                 currentColumnId,
                 handleOpenModal,
