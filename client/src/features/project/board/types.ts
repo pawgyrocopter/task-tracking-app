@@ -10,6 +10,7 @@ export type BoardTask = {
     description: string
     priority: TaskPriority
     avatar: string
+    assignee: string
 }
 
 export const TaskPriorities = [

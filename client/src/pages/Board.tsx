@@ -19,7 +19,8 @@ const mockColumns: BoardColumnType[] = [
                 description:
                     'On hold. Before saving a new tournament we should...',
                 priority: 'LOWEST',
-                avatar: '🟥',
+                avatar: '/account-avatar.svg',
+                assignee: 'dima12345@gmail.com',
             },
             {
                 id: '2',
@@ -27,7 +28,8 @@ const mockColumns: BoardColumnType[] = [
                 description:
                     'On hold. Before saving a new tournament we should...',
                 priority: 'LOW',
-                avatar: '🟣',
+                avatar: '/account-avatar.svg',
+                assignee: 'dima12345@gmail.com',
             },
             {
                 id: '3',
@@ -35,7 +37,8 @@ const mockColumns: BoardColumnType[] = [
                 description:
                     'On hold. Before saving a new tournament we should...',
                 priority: 'HIGHEST',
-                avatar: '⚪️',
+                avatar: '/account-avatar.svg',
+                assignee: 'dima12345@gmail.com',
             },
         ],
     },
@@ -49,7 +52,8 @@ const mockColumns: BoardColumnType[] = [
                 description:
                     'On hold. Before saving a new tournament we should...',
                 priority: 'MEDIUM',
-                avatar: '🟣',
+                avatar: '/account-avatar.svg',
+                assignee: 'dima12345@gmail.com',
             },
             {
                 id: '5',
@@ -57,7 +61,8 @@ const mockColumns: BoardColumnType[] = [
                 description:
                     'On hold. Before saving a new tournament we should...',
                 priority: 'HIGH',
-                avatar: '⚫️',
+                avatar: '/account-avatar.svg',
+                assignee: 'dima12345@gmail.com',
             },
             {
                 id: '6',
@@ -65,7 +70,8 @@ const mockColumns: BoardColumnType[] = [
                 description:
                     'On hold. Before saving a new tournament we should...',
                 priority: 'LOWEST',
-                avatar: '🟣',
+                avatar: '/account-avatar.svg',
+                assignee: 'dima12345@gmail.com',
             },
         ],
     },
@@ -79,7 +85,8 @@ const mockColumns: BoardColumnType[] = [
                 description:
                     'On hold. Before saving a new tournament we should...',
                 priority: 'LOWEST',
-                avatar: '🟢',
+                avatar: '/account-avatar.svg',
+                assignee: 'dima12345@gmail.com',
             },
         ],
     },
@@ -104,8 +111,8 @@ const BoardContent = () => {
     }, [projectId, setColumns])
 
     return (
-        <div className="flex h-full w-full flex-col relative">
-            <div className="flex flex-grow flex-col overflow-y-scroll md:flex-row gap-4">
+        <div className="relative flex h-full w-full flex-col">
+            <div className="flex flex-grow flex-col gap-4 overflow-y-scroll md:flex-row">
                 {columns?.map((column, idx) => (
                     <BoardColumn key={idx} column={column} />
                 ))}
