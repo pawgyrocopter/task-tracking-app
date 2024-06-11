@@ -1,11 +1,9 @@
-using System;
+using TaskTrackingDB.Entities;
 
-namespace TaskTrackingDB.Entities;
+namespace TaskTackingAPI.DTOs;
 
-public class ProjectTask
+public class TaskCreateDto
 {
-    public Guid Id { get; set; }
-    
     public string Name { get; set; }
     
     public string Description { get; set; }
@@ -14,14 +12,11 @@ public class ProjectTask
     
     public DateTime EndDate { get; set; }
     
+    public string AssignedUserEmail { get; set; }
     
     public Priority Priority { get; set; }
     
     public State State { get; set; }
     
-    public Project Project { get; set; }
-    
-    public User AssignedUser { get; set; }
-    
-    public User CreatorUser { get; set; }
+    public Guid ProjectId { get; set; }
 }

@@ -1,5 +1,9 @@
+
+
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TaskTackingAPI.DTOs;
@@ -8,43 +12,41 @@ using TaskTrackingDB.Entities;
 
 namespace TaskTackingAPI.Controllers;
 
-[Route("api/[controller]")]
-public class TasksController : ControllerBase
+[Authorize]
+public class TasksController : BaseController
 {
      private readonly ApplicationDbContext _context;
     private readonly IMapper _mapper;
 
-    public TasksController(ApplicationDbContext context, IMapper mapper)
+    public TasksController(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager): base(userManager)
     {
         _context = context;
         _mapper = mapper;
     }
 
-    // GET: api/tasks
     [HttpGet]
     public async Task<IEnumerable<List<TaskDto>>> GetTasks()
     {
         return await _context.Tasks.ProjectTo<List<TaskDto>>(_mapper.ConfigurationProvider).ToListAsync();
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<TaskDto>> GetTask(Guid id)
+    [HttpGet("{email}")]
+    public async Task<ActionResult<List<TaskDto>>> GetTasks(string email)
     {
-        var task = await _context.Tasks.FindAsync(id);
+        var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
 
-        if (task == null)
-        {
+        if (user is null)
             return NotFound();
-        }
+        
+        var tasks = _context.Tasks.Where(x => x.AssignedUser.Email == user.Email).Select(x => x);
 
-        return _mapper.Map<TaskDto>(task);
+        return tasks.ProjectTo<TaskDto>(_mapper.ConfigurationProvider).ToList();
     }
 
-    // PUT: api/tasks/5
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutTasks(Guid id, [FromBody]TaskDto taskDto)
+    public async Task<IActionResult> PutTasks(Guid id, [FromBody]TaskUpdateDto taskDto)
     {
-        var task = _context.Tasks.FirstOrDefault(x => x.Id == id);
+        var task = await _context.Tasks.FirstOrDefaultAsync(x => x.Id == id);
 
         if (task is null)
             return BadRequest();
@@ -52,34 +54,52 @@ public class TasksController : ControllerBase
         _context.Entry(task).State = EntityState.Modified;
         try
         {
-            task.Name = taskDto.Name;
-            task.StartDate = task.StartDate;
-            task.EndDate = task.EndDate;
+            task.Name = taskDto.Name ?? task.Name;
+            task.StartDate = taskDto.StartDate ?? task.StartDate;
+            task.EndDate = taskDto.EndDate ?? task.EndDate;
+            task.Priority = taskDto.Priority ?? task.Priority;
+            task.State = taskDto.State ?? task.State;
+
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == taskDto.AssignedUserEmail);
+            task.AssignedUser = user;
             await _context.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!TaskExists(id))
-            {
+            if (!(await TaskExists(id)))
                 return NotFound();
-            }
         }
 
         return NoContent();
     }
 
-    // POST: api/tasks
     [HttpPost]
-    public async Task<ActionResult<TaskDto>> PostTask(TaskDto taskDto)
+    public async Task<ActionResult<TaskDto>> PostTask([FromBody]TaskCreateDto taskDto)
     {
-        var task = _mapper.Map<ProjectTask>(taskDto);
+        var project = await _context.Projects.FirstOrDefaultAsync(x => x.Id == taskDto.ProjectId);
+
+        if (project is null)
+            return NotFound("Project doesn't exist");
+        
+        var task = new ProjectTask()
+        {
+            Name = taskDto.Name,
+            StartDate = taskDto.StartDate,
+            EndDate = taskDto.EndDate,
+            CreatorUser = CurrentUser,
+            Priority = taskDto.Priority,
+            Project = project
+        };
+        
+        var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == taskDto.AssignedUserEmail);
+        task.AssignedUser = user;
+
         _context.Tasks.Add(task);
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction("GetTask", new {id = task.Id}, task);
+        return _mapper.Map<TaskDto>(task);
     }
 
-    // DELETE: api/tasks/5
     [HttpDelete("{id}")]
     public async Task<ActionResult<TaskDto>> DeleteTask(Guid id)
     {
@@ -95,8 +115,8 @@ public class TasksController : ControllerBase
         return _mapper.Map<TaskDto>(task);
     }
 
-    private bool TaskExists(Guid id)
+    private async Task<bool> TaskExists(Guid id)
     {
-        return _context.Tasks.Any(e => e.Id == id);
+        return await _context.Tasks.AnyAsync(e => e.Id == id);
     }
 }

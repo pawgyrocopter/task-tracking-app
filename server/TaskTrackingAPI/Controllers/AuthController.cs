@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TaskTackingAPI.DTOs.AuthDtos;
@@ -11,24 +12,40 @@ namespace TaskTackingAPI.Controllers;
 
 
 [Route("api/[controller]")]
-public class AuthController(JwtService jwtService, ApplicationDbContext context) : ControllerBase
+public class AuthController : BaseController
 {
+    private readonly JwtService _jwtService;
+    private readonly ApplicationDbContext _context;
+    private readonly SignInManager<User> _signInManager;
+
+    public AuthController(JwtService jwtService, ApplicationDbContext context, UserManager<User> userManager, SignInManager<User> signInManager) : base(userManager)
+    {
+        _jwtService = jwtService;
+        _context = context;
+        _signInManager = signInManager;
+    }
+    
     [HttpPost("signin")]
     public async Task<ActionResult<AuthDto>> SignIn([FromBody] SignInDto signInDto)
     {
-        var user = await context.Users.FirstOrDefaultAsync(x => x.Email == signInDto.Email);
+        var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == signInDto.Email);
+        
+        if (user == null)
+           return Unauthorized("Email doesn't exist");
 
-        if (user is not null && user.Password == signInDto.Password)
+        var result = await _signInManager.CheckPasswordSignInAsync(user, signInDto.Password, false);
+        
+        if (result.Succeeded)
         {
             var userModel = new UserModel() {Email = user.Email, Id = user.Id};
-            var response = await jwtService.CreateToken(userModel.Email);
+            var response = await _jwtService.CreateToken(userModel.Email);
             var userRefresh = new UserRefreshToken()
             {
                 RefreshToken = response.RefreshToken,
                 Email = user.Email
             };
-            context.UserRefreshTokens.Add(userRefresh);
-            await context.SaveChangesAsync();
+            _context.UserRefreshTokens.Add(userRefresh);
+            await _context.SaveChangesAsync();
             
             return response;
         }
@@ -37,21 +54,33 @@ public class AuthController(JwtService jwtService, ApplicationDbContext context)
     }
 
     [HttpPost("signup")]
-    public async Task<AuthDto> SignUp([FromBody] SignUpDto signInDto)
+    public async Task<ActionResult<AuthDto>> SignUp([FromBody] SignUpDto signInDto)
     {
-        var user = new UserModel(signInDto);
-        var userModel = context.Users.Add(user.ToEntity());
+        var user = new User()
+        {
+            Email = signInDto.Email,
+            UserName = signInDto.Email,
+            PhoneNumber = signInDto.PhoneNumber,
+            Name = signInDto.Name,
+        };
         
-        var response = await jwtService.CreateToken(user.Email);
+        var result = await _userManager.CreateAsync(user, signInDto.Password);
+        
+        if (!result.Succeeded)
+        {
+            return BadRequest(result.Errors);
+        }
+        
+        var response = await _jwtService.CreateToken(user.Email);
 
         var userRefresh = new UserRefreshToken()
         {
             RefreshToken = response.RefreshToken,
-            Email = userModel.Entity.Email
+            Email = user.Email
         };
         
-        context.UserRefreshTokens.Add(userRefresh);
-        await context.SaveChangesAsync();
+        _context.UserRefreshTokens.Add(userRefresh);
+        await _context.SaveChangesAsync();
         
         return response;
     }
@@ -61,11 +90,11 @@ public class AuthController(JwtService jwtService, ApplicationDbContext context)
     [Route("refresh")]
     public async Task<IActionResult> Refresh([FromBody]AuthDto token)
     {
-        var principal = jwtService.GetPrincipalFromExpiredToken(token.Token);
+        var principal = _jwtService.GetPrincipalFromExpiredToken(token.Token);
         var username = principal.Identity?.Name;
 
         //retrieve the saved refresh token from database
-        var savedRefreshToken = context.UserRefreshTokens.FirstOrDefault(x =>
+        var savedRefreshToken = _context.UserRefreshTokens.FirstOrDefault(x =>
             x.Email == username && x.RefreshToken == token.RefreshToken && x.IsActive == true);
         
         if (savedRefreshToken.RefreshToken != token.RefreshToken)
@@ -73,35 +102,28 @@ public class AuthController(JwtService jwtService, ApplicationDbContext context)
             return Unauthorized("Invalid attempt!");
         }
 
-        var newJwtToken = await jwtService.CreateToken(username);
+        var newJwtToken = await _jwtService.CreateToken(username);
 
         if (newJwtToken == null)
         {
             return Unauthorized("Invalid attempt!");
         }
 
-        // saving refresh token to the db
         var obj = new UserRefreshToken
         {
             RefreshToken = newJwtToken.RefreshToken,
             Email = username
         };
 
-        var item = context.UserRefreshTokens.FirstOrDefault(x => x.Email == username && x.RefreshToken == token.RefreshToken);
+        var item = _context.UserRefreshTokens.FirstOrDefault(x => x.Email == username && x.RefreshToken == token.RefreshToken);
         if (item != null)
         {
-            context.UserRefreshTokens.Remove(item);
+            _context.UserRefreshTokens.Remove(item);
         }
         
-        context.UserRefreshTokens.Add(obj);
-        await context.SaveChangesAsync();
+        _context.UserRefreshTokens.Add(obj);
+        await _context.SaveChangesAsync();
 
         return Ok(newJwtToken);
-    }
-
-    [HttpGet("test-tokens/{email}")]
-    public async Task<List<UserRefreshToken>> GetTokens(string email)
-    {
-        return context.UserRefreshTokens.Where(x => x.Email == email).Select(x => x).ToList();
     }
 }

@@ -31,7 +31,8 @@ public sealed class JwtService
         var claims = new List<Claim>()
         {
             new(JwtRegisteredClaimNames.UniqueName, email),
-            new(ClaimTypes.Role, "user")
+            new(ClaimTypes.Role, "user"),
+            new(ClaimTypes.Email, email)
         };
 
         var tokenDescriptor = new SecurityTokenDescriptor()
