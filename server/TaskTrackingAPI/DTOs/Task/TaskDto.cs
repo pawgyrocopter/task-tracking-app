@@ -13,4 +13,12 @@ public class TaskDto
     public DateTime? StartDate { get; set; }
     
     public DateTime EndDate { get; set; }
+    
+    public Priority Priority { get; set; }
+    
+    public State State { get; set; }
+    
+    public string CreatorEmail { get; set; }
+    
+    public string AssigneeEmail { get; set; }
 }

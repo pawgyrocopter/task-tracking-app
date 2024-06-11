@@ -1,4 +1,5 @@
 using System;
+using Microsoft.AspNetCore.Identity;
 
 namespace TaskTrackingDB.Entities;
 
@@ -11,4 +12,5 @@ public class UserRole
     public Role Role { get; set; }
     
     public Project Project { get; set; }
+    public Guid ProjectId { get; set; }
 }

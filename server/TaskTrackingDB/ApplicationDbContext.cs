@@ -1,4 +1,5 @@
 using System;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TaskTrackingDB.Entities;
@@ -22,6 +23,8 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, Guid>
     
     public DbSet<UserRefreshToken> UserRefreshTokens { get; set; }
     
+    public DbSet<UserRole> UserRoles { get; set; }
+    
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
     }    
@@ -34,22 +37,28 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, Guid>
 
         builder.Entity<User>().HasMany<Project>(x => x.Projects);
 
-        builder.Entity<Role>().HasData(
-            new Role()
-            {
-                Id = Guid.NewGuid(),
-                RoleName = "Manager"
-            },
-            new Role()
-            {
-                Id = Guid.NewGuid(),
-                RoleName = "User"
-            },
-            new Role()
-            {
-                Id = Guid.NewGuid(),
-                RoleName = "Admin"
-            });
+        // builder.Entity<Role>().HasData(
+        //     new Role()
+        //     {
+        //         Id = Guid.NewGuid(),
+        //         RoleName = "Manager"
+        //     },
+        //     new Role()
+        //     {
+        //         Id = Guid.NewGuid(),
+        //         RoleName = "User"
+        //     },
+        //     new Role()
+        //     {
+        //         Id = Guid.NewGuid(),
+        //         RoleName = "Admin"
+        //     });
+        //
+        // builder.Entity<Project>().HasData(
+        //     new Project()
+        //     {
+        //         Id = Guid.NewGuid(),
+        //     });
         
         base.OnModelCreating(builder);
     }

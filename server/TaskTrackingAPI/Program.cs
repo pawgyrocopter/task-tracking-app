@@ -42,7 +42,11 @@ builder.Services.Configure<ServerSettings>(builder.Configuration.GetSection("Ser
 builder.Services.AddSingleton<Cache>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration["ServerSettings:ConnectionString"], b => b.MigrationsAssembly("TaskTrackingAPI")));
+{
+    options.UseNpgsql(builder.Configuration["ServerSettings:ConnectionString"],
+        b => b.MigrationsAssembly("TaskTrackingAPI"));
+    options.EnableSensitiveDataLogging();
+});
 
 builder.Services.AddIdentityCore<User>(o =>
     {
@@ -89,8 +93,9 @@ builder.Services.AddAuthorization();
 builder.Services.AddSingleton<JwtService>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
 var app = builder.Build();
+
+await new Seeder(app.Services).Initialize();
 
 // Configure the HTTP request pipeline.
 

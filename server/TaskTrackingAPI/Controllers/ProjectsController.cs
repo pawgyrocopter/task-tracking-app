@@ -11,15 +11,14 @@ using TaskTrackingDB.Entities;
 
 namespace TaskTackingAPI.Controllers;
 
-[Route("api/[controller]")]
 [Authorize]
-public class ProjectsController: ControllerBase
+public class ProjectsController: BaseController
 {
     private readonly ApplicationDbContext _context;
     private readonly IMapper _mapper;
     private readonly UserManager<User> _userManager;
 
-    public ProjectsController(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager)
+    public ProjectsController(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager) : base(userManager)
     {
         _context = context;
         _mapper = mapper;
@@ -32,15 +31,19 @@ public class ProjectsController: ControllerBase
         return await _context.Projects.Include(x => x.Tasks).Include(x => x.Users).ProjectTo<ProjectDto>(_mapper.ConfigurationProvider).ToListAsync();
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<ProjectDto>> GetProject(Guid id)
+    [HttpGet("{email}")]
+    public async Task<ActionResult<List<ProjectDto>>> GetTasks(string email)
     {
-        var project = await _context.Projects.FindAsync(id);
+        var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
 
-        if (project == null)
+        if (user is null)
             return NotFound();
-
-        return _mapper.Map<ProjectDto>(project);
+        
+        var projects = _context.Projects
+            .Include(x => x.Users)
+            .Include(x => x.Tasks)
+            .Where(x => x.CreatorUser.Email == user.Email || x.Users.FirstOrDefault(x => x.Email == user.Email) != null).Select(x => x);
+        return projects.ProjectTo<ProjectDto>(_mapper.ConfigurationProvider).ToList();
     }
 
     [HttpPut("{id}")]
@@ -91,11 +94,9 @@ public class ProjectsController: ControllerBase
         {
             EndDate = projectDto.EndDate,
             StartDate = projectDto.StartDate,
-            Name = projectDto.Name
+            Name = projectDto.Name,
+            CreatorUser = CurrentUser
         };
-
-        var email = User.FindFirst(ClaimTypes.Email).Value;
-        var currentUser = await _userManager.FindByNameAsync(email);
         
         foreach (var user in projectDto?.Users)
         {
@@ -125,6 +126,31 @@ public class ProjectsController: ControllerBase
         return _mapper.Map<ProjectDto>(project);
     }
 
+    [HttpGet("{projectId:guid}/tasks")]
+    public async Task<ActionResult<List<TaskDto>>> GetProjectTasks(Guid projectId)
+    {
+        var project = await _context.Projects.Include(x => x.Tasks).FirstOrDefaultAsync(x => x.Id == projectId);
+
+        if (project is null)
+            return NotFound();
+
+        return project.Tasks.AsQueryable().ProjectTo<TaskDto>(_mapper.ConfigurationProvider).ToList();
+    }
+    
+    [HttpGet("{projectId:guid}/overview")]
+    public async Task<ActionResult<ProjectOverviewDto>> GetProjectOverview(Guid projectId)
+    {
+        var project = await _context.Projects
+            .Include(x => x.Tasks)
+            .Include(x => x.Users)
+            .FirstOrDefaultAsync(x => x.Id == projectId);
+
+        if (project is null)
+            return NotFound();
+
+        return _mapper.Map<ProjectOverviewDto>(project);
+    }
+    
     private bool ProjectExists(Guid id)
     {
         return _context.Projects.Any(e => e.Id == id);
