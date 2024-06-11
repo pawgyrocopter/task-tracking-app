@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion'
 import { BoardColumn, BoardTask, TaskPriority } from './types'
 import DropIndicator from './DropIndicator'
+import TaskModal from './TaskModal'
+import { useState } from 'react'
 
 const BoardTaskCard = ({
     column,
@@ -15,6 +17,8 @@ const BoardTaskCard = ({
     handleDragEnd: () => void
     isLastCard: boolean
 }) => {
+    const [showModal, setShowModal] = useState<boolean>(false)
+
     return (
         <>
             <DropIndicator beforeId={task.id} columnId={column.id} />
@@ -22,10 +26,11 @@ const BoardTaskCard = ({
                 layout
                 layoutId={task.id}
                 key={task.id}
+                onClick={() => setShowModal(true)}
                 onDragEnd={handleDragEnd}
                 onDragStart={() => handleDragStart(task)}
                 draggable={true}
-                className="cursor-grab rounded-lg bg-white p-4 shadow-md active:cursor-grabbing"
+                className="cursor-pointer rounded-lg bg-white p-4 shadow-md active:cursor-grabbing"
             >
                 <div className="flex items-center gap-3">
                     <h3 className="mb-2 font-semibold">{task.name}</h3>
@@ -42,7 +47,14 @@ const BoardTaskCard = ({
                     </div>
                 </div>
             </motion.div>
-            {isLastCard && <DropIndicator beforeId={'-1'} columnId={column.id} />}
+            {isLastCard && (
+                <DropIndicator beforeId={'-1'} columnId={column.id} />
+            )}
+            <TaskModal
+                show={showModal}
+                onClose={() => setShowModal(false)}
+                task={task}
+            />
         </>
     )
 }
