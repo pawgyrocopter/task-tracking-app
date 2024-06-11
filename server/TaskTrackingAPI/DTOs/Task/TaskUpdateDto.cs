@@ -1,3 +1,5 @@
+using TaskTrackingDB.Entities;
+
 namespace TaskTackingAPI.DTOs;
 
 public class TaskUpdateDto
@@ -8,7 +10,11 @@ public class TaskUpdateDto
     
     public DateTime? StartDate { get; set; }
     
-    public DateTime EndDate { get; set; }
+    public DateTime? EndDate { get; set; }
     
     public string AssignedUserEmail { get; set; }
+    
+    public Priority? Priority { get; set; }
+    
+    public State? State { get; set; }
 }

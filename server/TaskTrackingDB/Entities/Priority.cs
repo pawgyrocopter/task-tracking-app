@@ -2,9 +2,12 @@ using System;
 
 namespace TaskTrackingDB.Entities;
 
-public class Priority
+public enum Priority
 {
-    public Guid Id { get; set; }
-    
-    public string Name { get; set; }
+    Highest,
+    High,
+    Medium,
+    Low,
+    Lowest
 }
+

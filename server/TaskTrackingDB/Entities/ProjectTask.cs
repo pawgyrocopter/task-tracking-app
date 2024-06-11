@@ -17,7 +17,11 @@ public class ProjectTask
     
     public Priority Priority { get; set; }
     
+    public State State { get; set; }
+    
     public Project Project { get; set; }
     
     public User AssignedUser { get; set; }
+    
+    public User CreatorUser { get; set; }
 }

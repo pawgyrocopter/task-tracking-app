@@ -3,6 +3,7 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TaskTackingAPI.DTOs;
@@ -11,14 +12,13 @@ using TaskTrackingDB.Entities;
 
 namespace TaskTackingAPI.Controllers;
 
-[Route("api/[controller]")]
 [Authorize]
-public class TasksController : ControllerBase
+public class TasksController : BaseController
 {
      private readonly ApplicationDbContext _context;
     private readonly IMapper _mapper;
 
-    public TasksController(ApplicationDbContext context, IMapper mapper)
+    public TasksController(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager): base(userManager)
     {
         _context = context;
         _mapper = mapper;
@@ -30,17 +30,17 @@ public class TasksController : ControllerBase
         return await _context.Tasks.ProjectTo<List<TaskDto>>(_mapper.ConfigurationProvider).ToListAsync();
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<TaskDto>> GetTask(Guid id)
+    [HttpGet("{email}")]
+    public async Task<ActionResult<List<TaskDto>>> GetTasks(string email)
     {
-        var task = await _context.Tasks.FindAsync(id);
+        var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
 
-        if (task == null)
-        {
+        if (user is null)
             return NotFound();
-        }
+        
+        var tasks = _context.Tasks.Where(x => x.AssignedUser.Email == user.Email).Select(x => x);
 
-        return _mapper.Map<TaskDto>(task);
+        return tasks.ProjectTo<TaskDto>(_mapper.ConfigurationProvider).ToList();
     }
 
     [HttpPut("{id}")]
@@ -54,9 +54,11 @@ public class TasksController : ControllerBase
         _context.Entry(task).State = EntityState.Modified;
         try
         {
-            task.Name = taskDto.Name;
-            task.StartDate = task.StartDate;
-            task.EndDate = task.EndDate;
+            task.Name = taskDto.Name ?? task.Name;
+            task.StartDate = taskDto.StartDate ?? task.StartDate;
+            task.EndDate = taskDto.EndDate ?? task.EndDate;
+            task.Priority = taskDto.Priority ?? task.Priority;
+            task.State = taskDto.State ?? task.State;
 
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == taskDto.AssignedUserEmail);
             task.AssignedUser = user;
@@ -74,12 +76,21 @@ public class TasksController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<TaskDto>> PostTask([FromBody]TaskCreateDto taskDto)
     {
+        var project = await _context.Projects.FirstOrDefaultAsync(x => x.Id == taskDto.ProjectId);
+
+        if (project is null)
+            return NotFound("Project doesn't exist");
+        
         var task = new ProjectTask()
         {
             Name = taskDto.Name,
             StartDate = taskDto.StartDate,
             EndDate = taskDto.EndDate,
+            CreatorUser = CurrentUser,
+            Priority = taskDto.Priority,
+            Project = project
         };
+        
         var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == taskDto.AssignedUserEmail);
         task.AssignedUser = user;
 
