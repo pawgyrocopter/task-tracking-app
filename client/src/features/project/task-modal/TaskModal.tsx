@@ -3,6 +3,7 @@ import Modal from '@/components/ui/Modal'
 import { BoardTask } from '../board/types'
 import TaskEdit from './TaskEdit'
 import TaskView from './TaskView'
+import { useProjectBoard } from '@/context/ProjectBoardContext'
 
 interface AddTaskModalProps {
     show: boolean
@@ -13,6 +14,8 @@ interface AddTaskModalProps {
 const TaskModal: React.FC<AddTaskModalProps> = ({ show, onClose, task }) => {
     const [isEditing, setIsEditing] = useState(false)
     const [editedTask, setEditedTask] = useState<BoardTask>({ ...task })
+
+    const { columns, setColumns } = useProjectBoard()
 
     const handleInputChange = (
         e: React.ChangeEvent<
@@ -35,7 +38,19 @@ const TaskModal: React.FC<AddTaskModalProps> = ({ show, onClose, task }) => {
     }
 
     const handleSaveClick = () => {
-        // add logic to save the edited task
+        // make api request
+
+        // update task on the client
+        const newColumns = columns.map((column) => {
+            const newTasks = column.tasks.map((task) => {
+                if (task.id === editedTask?.id) {
+                    return editedTask // replace the task with the editedTask
+                }
+                return task
+            })
+            return { ...column, tasks: newTasks }
+        })
+        setColumns(newColumns)
         setIsEditing(false)
     }
 
