@@ -1,26 +1,22 @@
-import Modal from '@/components/ui/Modal'
-import { BoardTask } from './types'
-import { getPriorityColor } from './shared'
 import { capitalizeString } from '@/utils/strings'
+import { BoardTask } from '../board/types'
+import { getPriorityColor } from '../board/shared'
 
-interface AddTaskModalProps {
-    show: boolean
-    onClose: () => void
+interface TaskViewProps {
     task: BoardTask
+    onEdit: () => void
 }
 
-const TaskModal: React.FC<AddTaskModalProps> = ({ show, onClose, task }) => {
+const TaskView: React.FC<TaskViewProps> = ({ task, onEdit }) => {
     return (
-        <Modal
-            className="mt-[2rem] h-[calc(100%-0.5rem)] w-full md:ml-[190px] md:mt-[3.5rem] md:h-[calc(100%-3.5rem)] md:w-[50rem]"
-            show={show}
-            onClose={onClose}
-        >
-            <div className="flex h-full w-full flex-col items-center justify-between p-4">
-                <div className="flex flex-col items-center justify-center gap-4">
-                    <h1 className="text-xl font-semibold">{task.name}</h1>
-                    <p>{task.description}</p>
-                </div>
+        <div className="flex h-full w-full flex-col items-center justify-between p-4">
+            <div className="flex w-full flex-col items-center justify-center gap-4">
+                <h1 className="text-center text-xl font-semibold">
+                    {task.name}
+                </h1>
+                <p className="text-center">{task.description}</p>
+            </div>
+            <div className="flex flex-col gap-10">
                 <div className="grid grid-cols-1 gap-2">
                     <div className="flex items-center gap-2">
                         <p className="w-[5rem]">Priority:</p>
@@ -34,7 +30,7 @@ const TaskModal: React.FC<AddTaskModalProps> = ({ show, onClose, task }) => {
                     <div className="flex items-center gap-2">
                         <p className="w-[5rem]">Assignee:</p>
                         <div className="flex items-center gap-2">
-                            <p>{task.assignee}</p>
+                            <p className="w-[15rem]">{task.assignee}</p>
                             <img
                                 src={task.avatar}
                                 className="flex h-6 w-6 items-center justify-center rounded-full"
@@ -42,9 +38,17 @@ const TaskModal: React.FC<AddTaskModalProps> = ({ show, onClose, task }) => {
                         </div>
                     </div>
                 </div>
+                <div className="mt-4 flex w-full justify-center gap-2">
+                    <button
+                        className="rounded-md bg-blue-500 px-4 py-1 text-white"
+                        onClick={onEdit}
+                    >
+                        Edit
+                    </button>
+                </div>
             </div>
-        </Modal>
+        </div>
     )
 }
 
-export default TaskModal
+export default TaskView

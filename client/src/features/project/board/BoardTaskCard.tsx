@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { BoardColumn, BoardTask } from './types'
 import DropIndicator from './DropIndicator'
-import TaskModal from './TaskModal'
+import TaskModal from '../task-modal/TaskModal'
 import { useState } from 'react'
 import { getPriorityColor } from './shared'
 
