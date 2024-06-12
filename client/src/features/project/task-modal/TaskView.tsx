@@ -14,7 +14,7 @@ const TaskView: React.FC<TaskViewProps> = ({ task, onEdit }) => {
                 <h1 className="text-center text-xl font-semibold">
                     {task.name}
                 </h1>
-                <p className="text-center">{task.description}</p>
+                <p className="w-[75%] text-center">{task.description}</p>
             </div>
             <div className="flex flex-col gap-10">
                 <div className="grid grid-cols-1 gap-2">
