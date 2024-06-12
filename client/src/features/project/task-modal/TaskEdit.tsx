@@ -32,7 +32,7 @@ const TaskEdit: React.FC<TaskEditProps> = ({
                 <textarea
                     name="description"
                     onChange={onChange}
-                    className="max-h-[20rem] min-h-[8rem] w-full text-center md:max-h-[25rem]"
+                    className="min-h-[22rem] w-[75%] resize-none text-center md:min-h-[25rem]"
                     defaultValue={task.description}
                 />
             </div>
