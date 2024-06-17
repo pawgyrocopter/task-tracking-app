@@ -3,10 +3,25 @@ import { CreateTaskFormFields } from './types'
 import { useState } from 'react'
 import CollaboratorInput from '@/components/CollaboratorInput'
 import { formatDate, capitalizeString } from '@/utils/strings'
-import { TaskPriorities } from '@/services/project/types'
+import { useProjectBoard } from '@/context/ProjectBoardContext'
+import {
+    TaskCreateDTO,
+    TaskPriorities,
+    TaskPriority,
+} from '@/services/task/types'
+import { createTaskToTheBoard } from '@/services/task/TaskService'
+import { useParams } from 'react-router-dom'
 
-const CreateTaskForm = ({ onFormSubmit }: { onFormSubmit: () => void }) => {
+const CreateTaskForm = ({
+    currentColumnId,
+    onFormSubmit,
+}: {
+    currentColumnId: number
+    onFormSubmit: () => void
+}) => {
     const [collaborators, setCollaborators] = useState<string[]>([])
+    const { columns, setColumns } = useProjectBoard()
+    const { projectId } = useParams()
 
     const assignee = collaborators[0]
 
@@ -18,13 +33,32 @@ const CreateTaskForm = ({ onFormSubmit }: { onFormSubmit: () => void }) => {
     } = useForm<CreateTaskFormFields>()
 
     const onSubmit: SubmitHandler<CreateTaskFormFields> = async (data) => {
-        // simulate request
-        console.log('data', data)
-        console.log('assignee', assignee)
+        if (!projectId) {
+            return
+        }
 
         try {
-            await new Promise((resolve) => setTimeout(resolve, 1000))
-            // perform some action when form gets submitted. close modal, redirect, etc.
+            const taskDTOToCreate: TaskCreateDTO = {
+                name: data.name,
+                description: data.description,
+                priority: data.priority.toUpperCase() as TaskPriority,
+                startDate: new Date().toISOString(),
+                assignedUserEmail: assignee,
+                state: currentColumnId,
+                projectId: projectId,
+            }
+
+            if (data.dueDate) {
+                taskDTOToCreate.endDate = new Date(data.dueDate).toISOString()
+            }
+
+            const taskBoard = await createTaskToTheBoard(taskDTOToCreate)
+
+            // update locally
+            const columnsCopy = [...columns]
+            columnsCopy[currentColumnId].tasks.push(taskBoard)
+            setColumns(columnsCopy)
+
             onFormSubmit()
         } catch (error) {
             setError('root', {

@@ -1,4 +1,4 @@
-import { TaskPriority } from '@/services/project/types'
+import { TaskPriority } from '@/services/task/types'
 
 export type BoardColumn = {
     id: number
