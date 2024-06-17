@@ -34,7 +34,6 @@ public class Seeder
     };
 
     private readonly Dictionary<string, Role> _roles = new();
-    private readonly List<Project> _projects = new();
 
     private readonly List<User> _users = new List<User>
     {
@@ -90,14 +89,6 @@ public class Seeder
         }
     };
 
-
-    private const int UserCount = 10;
-    private const int ProjectsCount = 15;
-    private const int TasksCount = 20;
-
-    // private static List<User> _users = new List<User>();
-    private static List<ProjectTask> _tasks = new List<ProjectTask>();
-
     private static Dictionary<Guid, UserGroup> _userGroups = new();
     private ApplicationDbContext _context;
 
@@ -133,35 +124,7 @@ public class Seeder
         }
 
         await _context.SaveChangesAsync();
-
-
-        // var user = new User
-        // {
-        //     Email = "xxxx@example.com",
-        //     NormalizedEmail = "XXXX@EXAMPLE.COM",
-        //     UserName = "Owner",
-        //     NormalizedUserName = "OWNER",
-        //     PhoneNumber = "+111111111111",
-        //     EmailConfirmed = true,
-        //     PhoneNumberConfirmed = true,
-        //     SecurityStamp = Guid.NewGuid().ToString("D")
-        // };
-
-        var testUser = new User
-        {
-            Email = "1",
-            NormalizedEmail = "1",
-            UserName = "1",
-            NormalizedUserName = "1",
-            PhoneNumber = "+111111111111",
-            EmailConfirmed = false,
-            PhoneNumberConfirmed = false,
-            SecurityStamp = Guid.NewGuid().ToString("D")
-        };
-
-        // _users.Add(user);
-        // _users.Add(testUser);
-
+        
         foreach (var user in _users)
         {
             var currentUser = await _context.Users.FirstOrDefaultAsync(x => x.Email == user.Email);
@@ -219,25 +182,9 @@ public class Seeder
                 await _context.SaveChangesAsync();
             }
         }
-
-
-        // AssignRoles(serviceProvider, user.Email, roles);
-
+        
         await _context.SaveChangesAsync();
     }
-
-    public void CreateUser()
-    {
-    }
-
-    // public static async Task<IdentityResult> AssignRoles(IServiceProvider services, string email, string[] roles)
-    // {
-    //     UserManager<ApplicationUser> _userManager = services.GetService<UserManager<ApplicationUser>>();
-    //     ApplicationUser user = await _userManager.FindByEmailAsync(email);
-    //     var result = await _userManager.AddToRolesAsync(user, roles);
-    //
-    //     return result;
-    // }
 
     public async IAsyncEnumerable<Project> GetCreatedProject(int number, UserGroup user)
     {
@@ -264,16 +211,7 @@ public class Seeder
 
                 _context.Projects.Add(project);
                 await _context.SaveChangesAsync();
-
-
-                // user.User.Roles.Add(new()
-                // {
-                //     Id = Guid.NewGuid(),
-                //     User = user.User,
-                //     Project = project,
-                //     ProjectId = project.Id,
-                //     Role = _roles["Administrator"],
-                // });
+                
 
                 await _context.SaveChangesAsync();
 
@@ -286,21 +224,4 @@ public class Seeder
             }
         }
     }
-
-    // public static Task<User> CreateUser()
-    // {
-    //     var testUser = new User
-    //     {
-    //         Email = "1",
-    //         NormalizedEmail = "1",
-    //         UserName = "1",
-    //         NormalizedUserName = "1",
-    //         PhoneNumber = "+111111111111",
-    //         EmailConfirmed = false,
-    //         PhoneNumberConfirmed = false,
-    //         SecurityStamp = Guid.NewGuid().ToString("D")
-    //     };
-    //
-    //     return testUser;
-    // }
 }
