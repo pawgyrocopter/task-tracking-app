@@ -21,6 +21,8 @@ const BoardContent = () => {
     const { columns, setColumns } = useProjectBoard()
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
+    const [totalTasks, setTotalTasks] = useState<number>(0)
+
     useEffect(() => {
         // make fetch and set columns with filtered tasks
         async function fetchBoardColumns() {
@@ -28,12 +30,20 @@ const BoardContent = () => {
                 return
             }
             setIsLoading(true)
-            const columns = await getBoardData(projectId)
-            setColumns(columns)
+            const boardColumns = await getBoardData(projectId)
+            const totalTasks = boardColumns.reduce(
+                (total, column) => total + column.tasks.length,
+                0
+            )
+            setTotalTasks(totalTasks)
+
+            setColumns(boardColumns)
             setIsLoading(false)
         }
         fetchBoardColumns()
-    }, [projectId, setColumns])
+    }, [])
+
+    console.log(columns)
 
     return (
         <>
@@ -43,7 +53,11 @@ const BoardContent = () => {
                 <div className="relative flex h-full w-full flex-col">
                     <div className="flex flex-grow flex-col gap-4 overflow-y-scroll md:flex-row">
                         {columns?.map((column, idx) => (
-                            <BoardColumn key={idx} column={column} />
+                            <BoardColumn
+                                key={idx}
+                                totalTasks={totalTasks}
+                                column={column}
+                            />
                         ))}
                     </div>
                     <DeleteTaskArea />
