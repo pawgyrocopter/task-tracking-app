@@ -143,7 +143,7 @@ public class ProjectsController: BaseController
         if (project is null)
             return NotFound();
 
-        return project.Tasks.AsQueryable().ProjectTo<TaskDto>(_mapper.ConfigurationProvider).ToList();
+        return _mapper.Map<List<TaskDto>>(project.Tasks);
     }
     
     [HttpGet("{projectId:guid}/overview")]
