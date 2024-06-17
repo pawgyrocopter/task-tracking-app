@@ -25,9 +25,9 @@ public class TasksController : BaseController
     }
 
     [HttpGet]
-    public async Task<IEnumerable<List<TaskDto>>> GetTasks()
+    public async Task<List<TaskDto>> GetTasks()
     {
-        return await _context.Tasks.ProjectTo<List<TaskDto>>(_mapper.ConfigurationProvider).ToListAsync();
+        return await _context.Tasks.ProjectTo<TaskDto>(_mapper.ConfigurationProvider).ToListAsync();
     }
 
     [HttpGet("{email}")]
@@ -40,7 +40,7 @@ public class TasksController : BaseController
         
         var tasks = _context.Tasks.Where(x => x.AssignedUser.Email == user.Email).Select(x => x);
 
-        return tasks.ProjectTo<TaskDto>(_mapper.ConfigurationProvider).ToList();
+        return await tasks.ProjectTo<TaskDto>(_mapper.ConfigurationProvider).ToListAsync();
     }
 
     [HttpPut("{id}")]
