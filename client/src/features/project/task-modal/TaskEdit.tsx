@@ -1,5 +1,6 @@
 import React from 'react'
-import { BoardTask, TaskPriorities } from '../board/types'
+import { BoardTask } from '../board/types'
+import { TaskPriorities } from '@/services/project/types'
 import { capitalizeString, formatDate } from '@/utils/strings'
 
 interface TaskEditProps {
@@ -75,7 +76,7 @@ const TaskEdit: React.FC<TaskEditProps> = ({
                                 )
                                 e.target.value = formattedDate
                             }}
-                            className="h-[1.5rem] md:max-w-[15rem] cursor-pointer rounded-lg border px-2 text-md shadow-lg placeholder:text-gray-700"
+                            className="text-md h-[1.5rem] cursor-pointer rounded-lg border px-2 shadow-lg placeholder:text-gray-700 md:max-w-[15rem]"
                         />
                     </div>
                     <div className="flex items-center gap-2">

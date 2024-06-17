@@ -45,7 +45,7 @@ export async function customFetchWithCredentials<ReturnType>(
     const config = {
         ...options,
         headers: {
-            Bearer: token,
+            Authorization: `Bearer ${token}`,
         },
     }
 
