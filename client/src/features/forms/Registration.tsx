@@ -6,7 +6,7 @@ import {
     validatePassword,
     validatePhoneNumber,
 } from '@/utils/validation'
-import { registerUser } from '@/services/AuthService'
+import { registerUser } from '@/services/auth/AuthService'
 
 const Registration = ({
     setIsLoginForm,
