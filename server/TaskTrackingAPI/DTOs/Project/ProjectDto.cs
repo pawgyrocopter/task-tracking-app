@@ -13,4 +13,8 @@ public class ProjectDto
     public List<UserDto> Users { get; set; }
     
     public List<TaskDto> Tasks { get; set; }
+    
+    public UserDto CreatorUser { get; set; }
+    
+    public string Description { get; set; }
 }

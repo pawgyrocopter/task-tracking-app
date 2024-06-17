@@ -26,6 +26,7 @@ public class ProjectsController: BaseController
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public async Task<List<ProjectDto>> GetProjects()
     {
         return await _context.Projects.Include(x => x.Tasks).Include(x => x.Users).ProjectTo<ProjectDto>(_mapper.ConfigurationProvider).ToListAsync();
@@ -34,7 +35,8 @@ public class ProjectsController: BaseController
     [HttpGet("{email}")]
     public async Task<ActionResult<List<ProjectDto>>> GetTasks(string email)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
+        var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email) ??
+                   await _context.Users.FirstOrDefaultAsync(x => x.Email == CurrentUser.Email);
 
         if (user is null)
             return NotFound();

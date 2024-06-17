@@ -9,9 +9,11 @@ namespace TaskTrackingDB;
 
 public class ApplicationDbContext : IdentityDbContext<User, Role, Guid>
 {
-    // public DbSet<User> Users { get; set; }
-    //
-    // public DbSet<Role> Roles { get; set; }
+    public static readonly string[] RoleNames = [Administrator, Manager, Collaborator];
+    public const string Administrator = "Administrator";
+    public const string Manager = "Manager";
+    public const string Collaborator = "Collaborator";
+    
     
     public DbSet<ProjectTask> Tasks { get; set; }
     
@@ -36,29 +38,6 @@ public class ApplicationDbContext : IdentityDbContext<User, Role, Guid>
         builder.Entity<Project>().HasMany(x => x.Users);
 
         builder.Entity<User>().HasMany<Project>(x => x.Projects);
-
-        // builder.Entity<Role>().HasData(
-        //     new Role()
-        //     {
-        //         Id = Guid.NewGuid(),
-        //         RoleName = "Manager"
-        //     },
-        //     new Role()
-        //     {
-        //         Id = Guid.NewGuid(),
-        //         RoleName = "User"
-        //     },
-        //     new Role()
-        //     {
-        //         Id = Guid.NewGuid(),
-        //         RoleName = "Admin"
-        //     });
-        //
-        // builder.Entity<Project>().HasData(
-        //     new Project()
-        //     {
-        //         Id = Guid.NewGuid(),
-        //     });
         
         base.OnModelCreating(builder);
     }
