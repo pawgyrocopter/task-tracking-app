@@ -1,7 +1,7 @@
 import React from 'react'
 import { BoardTask } from '../board/types'
-import { TaskPriorities } from '@/services/project/types'
 import { capitalizeString, formatDate } from '@/utils/strings'
+import { TaskPriorities } from '@/services/task/types'
 
 interface TaskEditProps {
     task: BoardTask
