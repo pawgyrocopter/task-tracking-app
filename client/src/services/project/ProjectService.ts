@@ -1,7 +1,9 @@
 import { customFetchWithCredentials } from '@/utils/fetch'
-import { ProjectDTO, TaskDTO } from './types'
+import { ProjectDTO } from './types'
 import { Project } from '@/features/project/types'
-import { BoardColumn, BoardTask } from '@/features/project/board/types'
+import { BoardColumn } from '@/features/project/board/types'
+import { TaskDTO } from '../task/types'
+import { taskDTOsToBoardTasks } from '../task/TaskService'
 
 const PROJECTS_ENDPOINT = '/projects'
 
@@ -12,9 +14,7 @@ export async function getProjects(): Promise<Project[]> {
     return projectDTOsToProjects(projectDTOs)
 }
 
-export async function getBoardData(
-    projectId: string
-): Promise<BoardColumn[]> {
+export async function getBoardData(projectId: string): Promise<BoardColumn[]> {
     const taskDTOs = await customFetchWithCredentials<TaskDTO[]>(
         `${PROJECTS_ENDPOINT}/${projectId}/tasks`
     )
@@ -44,20 +44,6 @@ export async function getBoardData(
     ]
 
     return columns
-}
-
-function taskDTOsToBoardTasks(taskDTOs: TaskDTO[]): BoardTask[] {
-    return taskDTOs.map((taskDTO) => {
-        return {
-            id: taskDTO.id,
-            name: taskDTO.name,
-            description: taskDTO.description,
-            priority: taskDTO.priority,
-            avatar: '',
-            assignee: taskDTO.assigneeEmail,
-            dueDate: new Date(taskDTO.endDate),
-        }
-    })
 }
 
 function projectDTOsToProjects(projectDTOs: ProjectDTO[]): Project[] {

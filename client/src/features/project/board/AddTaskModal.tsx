@@ -4,13 +4,13 @@ import CreateTaskForm from '@/features/forms/CreateTask'
 interface AddTaskModalProps {
     show: boolean
     onClose: () => void
-    columnName: string
+    currentColumnId: number
 }
 
 const AddTaskModal: React.FC<AddTaskModalProps> = ({
     show,
     onClose,
-    columnName,
+    currentColumnId,
 }) => {
     return (
         <Modal
@@ -21,12 +21,30 @@ const AddTaskModal: React.FC<AddTaskModalProps> = ({
             <div className="flex h-full w-full flex-col items-center justify-center">
                 <div className="my-4 flex flex-col items-center justify-center">
                     <h1 className="text-lg">Create task</h1>
-                    <h1 className="text-md text-gray-500">{columnName}</h1>
+                    <h1 className="text-md text-gray-500">
+                        {getColumnName(currentColumnId)}
+                    </h1>
                 </div>
-                <CreateTaskForm onFormSubmit={onClose} />
+                <CreateTaskForm
+                    currentColumnId={currentColumnId}
+                    onFormSubmit={onClose}
+                />
             </div>
         </Modal>
     )
+}
+
+function getColumnName(columnId: number): string {
+    switch (columnId) {
+        case 0:
+            return 'To do'
+        case 1:
+            return 'In progress'
+        case 2:
+            return 'Done'
+        default:
+            return ''
+    }
 }
 
 export default AddTaskModal
