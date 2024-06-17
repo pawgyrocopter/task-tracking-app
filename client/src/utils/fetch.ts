@@ -31,3 +31,23 @@ export async function customFetch<ReturnType>(
         throw error
     }
 }
+
+export async function customFetchWithCredentials<ReturnType>(
+    endpoint: string,
+    options: RequestInit = {}
+): Promise<ReturnType> {
+    const token = localStorage.getItem('accessToken')
+
+    if (!token) {
+        throw new Error('no token')
+    }
+
+    const config = {
+        ...options,
+        headers: {
+            Bearer: token,
+        },
+    }
+
+    return customFetch<ReturnType>(endpoint, config)
+}
