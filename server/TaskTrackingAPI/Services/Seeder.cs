@@ -33,7 +33,6 @@ public class Seeder
             "A quantum computing simulator and educational platform. Allows users to experiment with quantum algorithms and gates.")
     };
 
-    private readonly string[] _roleNames = new[] {"Administrator", "Manager", "Collaborator"};
     private readonly Dictionary<string, Role> _roles = new();
     private readonly List<Project> _projects = new();
 
@@ -115,13 +114,13 @@ public class Seeder
     {
         using var scope = _serviceProvider.CreateScope();
         _context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        if (await _context.Database.EnsureCreatedAsync())
+        if (await _context.Database.EnsureCreatedAsync() || _context.Users.Count() != 0)
             return;
         
         _roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
         _userManger = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
 
-        foreach (var role in _roleNames)
+        foreach (var role in ApplicationDbContext.RoleNames)
         {
             var roleDb = await _context.Roles.FirstOrDefaultAsync(x => x.Name == role);
             if (roleDb is null)
