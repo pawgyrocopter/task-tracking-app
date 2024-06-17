@@ -1,12 +1,8 @@
 import { LoginFormFields, RegistrationFormFields } from '@/features/forms/types'
 import { customFetch } from '@/utils/fetch'
+import { AuthTokens } from './types'
 
 const AUTH_ENDPOINT = '/auth'
-
-export interface AuthTokens {
-    token: string
-    refreshToken: string
-}
 
 export async function registerUser(credentials: RegistrationFormFields) {
     return customFetch(AUTH_ENDPOINT + '/signup', {
