@@ -6,7 +6,13 @@ import { useProjectBoard } from '@/context/ProjectBoardContext'
 import { useState } from 'react'
 import DropIndicator from './DropIndicator'
 
-const BoardColumn = ({ column }: { column: BoardColumnType }) => {
+const BoardColumn = ({
+    column,
+    totalTasks,
+}: {
+    column: BoardColumnType
+    totalTasks: number
+}) => {
     const [isActive, setIsActive] = useState<boolean>(false)
 
     const {
@@ -91,7 +97,7 @@ const BoardColumn = ({ column }: { column: BoardColumnType }) => {
             className={`flex w-full flex-col rounded-lg p-4 md:h-full md:w-1/3 ${isActive ? 'bg-neutral-300' : 'bg-neutral-200'}`}
         >
             <h2 className="mb-4 text-xl font-semibold">
-                {column.name} {column.tasks.length} of 21
+                {column.name} {column.tasks.length} of {totalTasks}
             </h2>
             <div
                 onDragOver={handleDragOver}
@@ -117,7 +123,7 @@ const BoardColumn = ({ column }: { column: BoardColumnType }) => {
                 />
             </div>
             <AddTaskModal
-                columnName={getColumnName(currentColumnId)}
+                currentColumnId={currentColumnId}
                 show={showModal}
                 onClose={handleCloseModal}
             />
@@ -179,19 +185,6 @@ const getNearestIndicators = (
 
 const getIndicators = (column: BoardColumnType): HTMLElement[] => {
     return Array.from(document.querySelectorAll(`[data-column="${column.id}"]`))
-}
-
-function getColumnName(columnId: number): string {
-    switch (columnId) {
-        case 0:
-            return 'To do'
-        case 1:
-            return 'In progress'
-        case 2:
-            return 'Done'
-        default:
-            return ''
-    }
 }
 
 export default BoardColumn
