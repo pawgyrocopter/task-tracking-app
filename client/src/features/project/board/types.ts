@@ -1,3 +1,5 @@
+import { TaskPriority } from '@/services/project/types'
+
 export type BoardColumn = {
     id: number
     name: string
@@ -13,13 +15,3 @@ export type BoardTask = {
     assignee: string
     dueDate?: Date
 }
-
-export const TaskPriorities = [
-    'HIGHEST',
-    'HIGH',
-    'MEDIUM',
-    'LOW',
-    'LOWEST',
-] as const
-
-export type TaskPriority = (typeof TaskPriorities)[number]

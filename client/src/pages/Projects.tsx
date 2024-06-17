@@ -1,5 +1,6 @@
 import ProjectList from '@/features/project/ProjectList'
 import { Project } from '@/features/project/types'
+import { getProjects } from '@/services/project/ProjectService'
 import { useEffect, useState } from 'react'
 
 const ProjectsPage = () => {
@@ -8,9 +9,8 @@ const ProjectsPage = () => {
 
     useEffect(() => {
         async function fetchProjects() {
-            const response = await fetch('data/projects.json')
-            const data = await response.json()
-            setProjects(data)
+            const response = await getProjects()
+            setProjects(response)
             setIsLoading(false)
         }
         fetchProjects()

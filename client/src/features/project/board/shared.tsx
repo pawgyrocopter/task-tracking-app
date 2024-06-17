@@ -1,4 +1,4 @@
-import { TaskPriority } from './types'
+import { TaskPriority } from '@/services/project/types'
 
 export function getPriorityColor(priority: TaskPriority): string {
     switch (priority) {
