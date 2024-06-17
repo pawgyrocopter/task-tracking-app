@@ -16,7 +16,7 @@ public class User : IdentityUser<Guid>
 
     public List<UserRole> Roles { get; set; } = [];
 
-    public IEnumerable<Project> Projects { get; set; } = [];
+    public List<Project> Projects { get; set; } = [];
 
     public User() : base()
     {

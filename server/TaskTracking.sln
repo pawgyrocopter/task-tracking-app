@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskTrackingDB", "TaskTrack
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskTrackingServer", "TaskTrackingServer\TaskTrackingServer.csproj", "{5DBC2BD8-C66C-4714-A5A2-F6021F65F284}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMTPServer", "SMTPServer\SMTPServer.csproj", "{A567735D-A612-4B84-A59B-8C04D61958D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{5DBC2BD8-C66C-4714-A5A2-F6021F65F284}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DBC2BD8-C66C-4714-A5A2-F6021F65F284}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5DBC2BD8-C66C-4714-A5A2-F6021F65F284}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A567735D-A612-4B84-A59B-8C04D61958D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A567735D-A612-4B84-A59B-8C04D61958D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A567735D-A612-4B84-A59B-8C04D61958D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A567735D-A612-4B84-A59B-8C04D61958D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
