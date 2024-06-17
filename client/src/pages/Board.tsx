@@ -87,6 +87,7 @@ const mockColumns: BoardColumnType[] = [
                 priority: 'LOWEST',
                 avatar: '/account-avatar.svg',
                 assignee: 'dima12345@gmail.com',
+                dueDate: new Date(2024, 10, 21),
             },
         ],
     },
