@@ -1,6 +1,6 @@
 import React from 'react'
 import { BoardTask, TaskPriorities } from '../board/types'
-import { capitalizeString } from '@/utils/strings'
+import { capitalizeString, formatDate } from '@/utils/strings'
 
 interface TaskEditProps {
     task: BoardTask
@@ -43,14 +43,40 @@ const TaskEdit: React.FC<TaskEditProps> = ({
                         <select
                             name="priority"
                             onChange={onChange}
-                            className="w-[6rem] rounded-md border border-gray-300"
+                            className="w-[5rem] rounded-md border border-gray-300"
+                            defaultValue={capitalizeString(task.priority)}
                         >
                             {TaskPriorities.map((priority) => (
-                                <option selected={priority === task.priority}>
-                                    {capitalizeString(priority)}
-                                </option>
+                                <option>{capitalizeString(priority)}</option>
                             ))}
                         </select>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <p className="w-[5rem]">Due date:</p>
+                        <input
+                            name="dueDate"
+                            onChange={onChange}
+                            defaultValue={task.dueDate?.toLocaleDateString(
+                                undefined,
+                                {
+                                    weekday: 'long',
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric',
+                                }
+                            )}
+                            placeholder="Due date (optional)"
+                            type="text"
+                            onFocus={(e) => (e.target.type = 'date')}
+                            onBlur={(e) => {
+                                e.target.type = 'text'
+                                const formattedDate = formatDate(
+                                    new Date(e.target.value)
+                                )
+                                e.target.value = formattedDate
+                            }}
+                            className="h-[1.5rem] md:max-w-[15rem] cursor-pointer rounded-lg border px-2 text-md shadow-lg placeholder:text-gray-700"
+                        />
                     </div>
                     <div className="flex items-center gap-2">
                         <p className="w-[5rem]">Assignee:</p>
@@ -59,7 +85,7 @@ const TaskEdit: React.FC<TaskEditProps> = ({
                                 type="text"
                                 name="assignee"
                                 onChange={onChange}
-                                className="w-[15rem]"
+                                className="md:max-w-[15rem]"
                                 defaultValue={task.assignee}
                             />
                             <img
