@@ -3,7 +3,7 @@ import { LoginFormFields } from './types'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '@/context/AuthContext'
 import { validateEmail, validatePassword } from '@/utils/validation'
-import { loginUser } from '@/services/AuthService'
+import { loginUser } from '@/services/auth/AuthService'
 
 const Login = ({
     setIsLoginForm,

@@ -1,4 +1,5 @@
-import { AuthTokens, refresh } from '@/services/AuthService'
+import { refresh } from '@/services/auth/AuthService'
+import { AuthTokens } from '@/services/auth/types'
 import { createContext, useContext, useEffect, useState } from 'react'
 
 type AuthContextType = {
