@@ -11,6 +11,7 @@ export type BoardTask = {
     priority: TaskPriority
     avatar: string
     assignee: string
+    dueDate?: Date
 }
 
 export const TaskPriorities = [

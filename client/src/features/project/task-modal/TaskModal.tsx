@@ -24,10 +24,14 @@ const TaskModal: React.FC<AddTaskModalProps> = ({ show, onClose, task }) => {
     ) => {
         const { name, value } = e.target
 
-        let modifiedValue = value
+        let modifiedValue: string | Date = value
 
         if (name === 'priority') {
             modifiedValue = value.toUpperCase()
+        }
+
+        if (name === 'dueDate') {
+            modifiedValue = new Date(value)
         }
 
         setEditedTask({ ...editedTask, [name]: modifiedValue })

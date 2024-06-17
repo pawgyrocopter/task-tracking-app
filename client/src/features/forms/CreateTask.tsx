@@ -66,61 +66,35 @@ const CreateTaskForm = ({ onFormSubmit }: { onFormSubmit: () => void }) => {
                     <div className="w-[18rem] md:w-[32rem]">
                         <select
                             {...register('priority')}
+                            defaultValue={'Lowest'}
                             className="h-[2rem] w-full cursor-pointer rounded-lg border border-r-8 border-transparent text-lg shadow-lg placeholder:text-gray-700"
                         >
                             {TaskPriorities.map((priority) => (
-                                <option selected={priority === 'LOWEST'}>
-                                    {capitalizeString(priority)}
-                                </option>
+                                <option>{capitalizeString(priority)}</option>
                             ))}
                         </select>
                         <p className="text-xs text-red-500">
                             {errors.description?.message}
                         </p>
                     </div>
-                    <div className="flex w-[18rem] justify-between md:w-[32rem]">
-                        <div className="flex flex-col">
-                            <input
-                                {...register('startDate', {
-                                    required: 'Start date is required',
-                                })}
-                                placeholder="Start date"
-                                type="text"
-                                onFocus={(e) => (e.target.type = 'date')}
-                                onBlur={(e) => {
-                                    e.target.type = 'text'
-                                    const formattedDate = formatDate(
-                                        new Date(e.target.value)
-                                    )
-                                    e.target.value = formattedDate
-                                }}
-                                className="h-[2.25rem] w-[8.5rem] rounded-lg border px-2 text-lg shadow-lg placeholder:text-gray-700 md:w-[15.5rem]"
-                            />
-                            <p className="text-xs text-red-500">
-                                {errors.startDate?.message}
-                            </p>
-                        </div>
-                        <div className="flex flex-col">
-                            <input
-                                {...register('endDate', {
-                                    required: 'End date is required',
-                                })}
-                                placeholder="End date"
-                                type="text"
-                                onFocus={(e) => (e.target.type = 'date')}
-                                onBlur={(e) => {
-                                    e.target.type = 'text'
-                                    const formattedDate = formatDate(
-                                        new Date(e.target.value)
-                                    )
-                                    e.target.value = formattedDate
-                                }}
-                                className="h-[2.25rem] w-[8.5rem] rounded-lg border px-2 text-lg shadow-lg placeholder:text-gray-700 md:w-[15.5rem]"
-                            />
-                            <p className="text-xs text-red-500">
-                                {errors.endDate?.message}
-                            </p>
-                        </div>
+                    <div className="w-[18rem] md:w-[32rem]">
+                        <input
+                            {...register('dueDate')}
+                            placeholder="Due date (optional)"
+                            type="text"
+                            onFocus={(e) => (e.target.type = 'date')}
+                            onBlur={(e) => {
+                                e.target.type = 'text'
+                                const formattedDate = formatDate(
+                                    new Date(e.target.value)
+                                )
+                                e.target.value = formattedDate
+                            }}
+                            className="h-[2.25rem] w-full cursor-pointer rounded-lg border px-2 text-lg shadow-lg placeholder:text-gray-700"
+                        />
+                        <p className="text-xs text-red-500">
+                            {errors.dueDate?.message}
+                        </p>
                     </div>
                     <div className="w-[18rem] md:w-[32rem]">
                         <CollaboratorInput
