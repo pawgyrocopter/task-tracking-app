@@ -3,7 +3,7 @@ import { CreateTaskFormFields } from './types'
 import { useState } from 'react'
 import CollaboratorInput from '@/components/CollaboratorInput'
 import { formatDate, capitalizeString } from '@/utils/strings'
-import { TaskPriorities } from '../project/board/types'
+import { TaskPriorities } from '@/services/project/types'
 
 const CreateTaskForm = ({ onFormSubmit }: { onFormSubmit: () => void }) => {
     const [collaborators, setCollaborators] = useState<string[]>([])
