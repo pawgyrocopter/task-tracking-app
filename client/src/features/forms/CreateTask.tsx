@@ -20,7 +20,7 @@ const CreateTaskForm = ({
     onFormSubmit: () => void
 }) => {
     const [collaborators, setCollaborators] = useState<string[]>([])
-    const { columns, setColumns } = useProjectBoard()
+    const { columns, setColumns, totalTasks, setTotalTasks } = useProjectBoard()
     const { projectId } = useParams()
 
     const assignee = collaborators[0]
@@ -58,6 +58,7 @@ const CreateTaskForm = ({
             const columnsCopy = [...columns]
             columnsCopy[currentColumnId].tasks.push(taskBoard)
             setColumns(columnsCopy)
+            setTotalTasks(totalTasks + 1)
 
             onFormSubmit()
         } catch (error) {
