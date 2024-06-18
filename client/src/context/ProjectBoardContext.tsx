@@ -4,6 +4,8 @@ import React, { createContext, useState, useContext } from 'react'
 type ProjectBoardContextType = {
     columns: BoardColumn[]
     setColumns: (columns: BoardColumn[]) => void
+    totalTasks: number
+    setTotalTasks: (totalTasks: number) => void
     setDraggingTask: (boardTask: BoardTask | null) => void
     draggingTask: BoardTask | null
     showModal: boolean
@@ -25,6 +27,7 @@ export const ProjectBoardProvider = ({
     const [draggingTask, setDraggingTask] = useState<BoardTask | null>(null)
     const [columns, setColumns] = useState<BoardColumn[]>([])
     const [currentColumnId, setCurrentColumnId] = useState<number>(-1)
+    const [totalTasks, setTotalTasks] = useState<number>(0)
 
     const handleOpenModal = (columnId: number) => {
         setCurrentColumnId(columnId)
@@ -48,6 +51,8 @@ export const ProjectBoardProvider = ({
             value={{
                 columns,
                 setColumns,
+                totalTasks,
+                setTotalTasks,
                 draggingTask,
                 setDraggingTask,
                 showModal,
