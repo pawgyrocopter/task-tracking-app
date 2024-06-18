@@ -44,9 +44,10 @@ public class TasksController : BaseController
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutTasks(Guid id, [FromBody]TaskUpdateDto taskDto)
+    public async Task<ActionResult<TaskDto>> PutTasks(Guid id, [FromBody]TaskUpdateDto taskDto)
     {
-        var task = await _context.Tasks.FirstOrDefaultAsync(x => x.Id == id);
+        var task = await _context.Tasks
+            .Include(x => x.AssignedUser).FirstOrDefaultAsync(x => x.Id == id);
 
         if (task is null)
             return BadRequest();
@@ -59,10 +60,17 @@ public class TasksController : BaseController
             task.EndDate = taskDto.EndDate ?? task.EndDate;
             task.Priority = taskDto.Priority ?? task.Priority;
             task.State = taskDto.State ?? task.State;
+            task.Description = taskDto.Description ?? task.Description;
 
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == taskDto.AssignedUserEmail);
-            task.AssignedUser = user;
+            if (taskDto.AssignedUserEmail is not null)
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == taskDto.AssignedUserEmail);
+                task.AssignedUser = user;
+            }
+           
             await _context.SaveChangesAsync();
+
+            return _mapper.Map<TaskDto>(task);
         }
         catch (DbUpdateConcurrencyException)
         {
@@ -88,11 +96,15 @@ public class TasksController : BaseController
             EndDate = taskDto.EndDate,
             CreatorUser = CurrentUser,
             Priority = taskDto.Priority,
-            Project = project
+            Project = project,
+            Description = taskDto.Description
         };
-        
-        var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == taskDto.AssignedUserEmail);
-        task.AssignedUser = user;
+
+        if (taskDto.AssignedUserEmail is not null)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == taskDto.AssignedUserEmail);
+            task.AssignedUser = user;
+        }
 
         _context.Tasks.Add(task);
         await _context.SaveChangesAsync();

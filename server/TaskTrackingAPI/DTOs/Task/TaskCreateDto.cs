@@ -18,5 +18,5 @@ public class TaskCreateDto
     
     public State State { get; set; }
     
-    public Guid ProjectId { get; set; }
+    public Guid? ProjectId { get; set; }
 }
