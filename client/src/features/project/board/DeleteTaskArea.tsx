@@ -6,8 +6,14 @@ import { deleteTask } from '@/services/task/TaskService'
 const DeleteTaskArea = () => {
     const [active, setActive] = useState<boolean>(false)
     const [isAnimating, setIsAnimating] = useState<boolean>(false)
-    const { columns, setColumns, draggingTask, setDraggingTask } =
-        useProjectBoard()
+    const {
+        columns,
+        setColumns,
+        totalTasks,
+        setTotalTasks,
+        draggingTask,
+        setDraggingTask,
+    } = useProjectBoard()
 
     useEffect(() => {
         if (draggingTask) {
@@ -27,16 +33,19 @@ const DeleteTaskArea = () => {
         setActive(false)
     }
 
-    const handleDragEnd = () => {
+    const handleDragEnd = async () => {
         if (!draggingTask) {
             return
         }
-        deleteTask(draggingTask.id)
+        const taskToDeleteId = draggingTask.id
+        // delete task on the server
+        await deleteTask(taskToDeleteId)
+        // delete task locally
         const newColumns = columns.map((column) => {
             let taskFound = false
             const newTasks = column.tasks.filter((task) => {
                 if (taskFound) return true
-                if (task.id === draggingTask?.id) {
+                if (task.id === taskToDeleteId) {
                     taskFound = true
                     return false
                 }
@@ -45,10 +54,9 @@ const DeleteTaskArea = () => {
             return { ...column, tasks: newTasks }
         })
         setColumns(newColumns)
+        setTotalTasks(totalTasks - 1)
         setActive(false)
         setDraggingTask(null)
-        console.log('task to delete', draggingTask)
-        // make delete request and update tasks locally
     }
 
     if (!draggingTask && !isAnimating) {
