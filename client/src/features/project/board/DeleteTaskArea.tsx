@@ -1,6 +1,7 @@
 import { useProjectBoard } from '@/context/ProjectBoardContext'
 import { useEffect, useState } from 'react'
 import '@/assets/css/delete-area.css'
+import { deleteTask } from '@/services/task/TaskService'
 
 const DeleteTaskArea = () => {
     const [active, setActive] = useState<boolean>(false)
@@ -27,6 +28,10 @@ const DeleteTaskArea = () => {
     }
 
     const handleDragEnd = () => {
+        if (!draggingTask) {
+            return
+        }
+        deleteTask(draggingTask.id)
         const newColumns = columns.map((column) => {
             let taskFound = false
             const newTasks = column.tasks.filter((task) => {
