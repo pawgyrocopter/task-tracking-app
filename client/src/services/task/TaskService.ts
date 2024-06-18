@@ -1,5 +1,5 @@
 import { BoardTask } from '@/features/project/board/types'
-import { TaskCreateDTO, TaskDTO } from './types'
+import { TaskCreateDTO, TaskDTO, TaskEditableFields } from './types'
 import { customFetchWithCredentials } from '@/utils/fetch'
 
 const TASKS_ENDPOINT = '/tasks'
@@ -18,6 +18,28 @@ export async function createTaskToTheBoard(
 ): Promise<BoardTask> {
     const taskDTO = await createTask(taskToCreate)
     return taskDTOToBoardTask(taskDTO)
+}
+
+export async function modifyTask(
+    taskId: string,
+    modifiedFields: TaskEditableFields
+): Promise<TaskDTO> {
+    return await customFetchWithCredentials<TaskDTO>(
+        `${TASKS_ENDPOINT}/${taskId}`,
+        {
+            method: 'PUT',
+            body: JSON.stringify(modifiedFields),
+        }
+    )
+}
+
+export async function deleteTask(taskId: string): Promise<TaskDTO> {
+    return await customFetchWithCredentials<TaskDTO>(
+        `${TASKS_ENDPOINT}/${taskId}`,
+        {
+            method: 'DELETE',
+        }
+    )
 }
 
 export function taskDTOToBoardTask(taskDTO: TaskDTO): BoardTask {

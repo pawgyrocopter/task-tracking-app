@@ -21,6 +21,8 @@ export interface TaskCreateDTO {
     projectId: string
 }
 
+export type TaskEditableFields = Partial<Omit<TaskCreateDTO, 'projectId'>>
+
 export const TaskPriorities = [
     'HIGHEST',
     'HIGH',
