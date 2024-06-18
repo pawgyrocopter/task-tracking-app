@@ -18,10 +18,8 @@ const BoardPage = () => {
 
 const BoardContent = () => {
     const { projectId } = useParams()
-    const { columns, setColumns } = useProjectBoard()
+    const { columns, setColumns, totalTasks, setTotalTasks } = useProjectBoard()
     const [isLoading, setIsLoading] = useState<boolean>(false)
-
-    const [totalTasks, setTotalTasks] = useState<number>(0)
 
     useEffect(() => {
         // make fetch and set columns with filtered tasks
