@@ -1,5 +1,5 @@
 import { customFetchWithCredentials } from '@/utils/fetch'
-import { BoardData, ProjectDTO } from './types'
+import { BoardData, ProjectCreateDTO, ProjectDTO } from './types'
 import { Project } from '@/features/project/types'
 import { TaskDTO } from '../task/types'
 import { taskDTOsToBoardTasks } from '../task/TaskService'
@@ -12,6 +12,20 @@ export async function getProjects(): Promise<Project[]> {
         await customFetchWithCredentials<ProjectDTO[]>(PROJECTS_ENDPOINT)
 
     return projectDTOsToProjects(projectDTOs)
+}
+
+export async function createProject(
+    projectToCreate: ProjectCreateDTO
+): Promise<ProjectDTO> {
+    const projectDTO = await customFetchWithCredentials<ProjectDTO>(
+        PROJECTS_ENDPOINT,
+        {
+            method: 'POST',
+            body: JSON.stringify(projectToCreate),
+        }
+    )
+
+    return projectDTO
 }
 
 export async function getBoardData(projectId: string): Promise<BoardData> {
@@ -47,7 +61,7 @@ export async function getBoardData(projectId: string): Promise<BoardData> {
 
     return {
         columns: columns,
-        users: users,
+        users: users.map((user) => user.email),
     }
 }
 

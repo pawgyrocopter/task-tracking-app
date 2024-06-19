@@ -94,7 +94,7 @@ const CollaboratorInput: React.FC<CollaboratorInputProps> = ({
 
     return (
         <div className="flex w-full flex-col">
-            <div className="flex h-[2.25rem] w-full flex-wrap items-center gap-2 rounded-lg border px-2 shadow-lg">
+            <div className="flex w-full flex-wrap items-center gap-2 rounded-lg border px-2 shadow-lg">
                 {collaborators.length === 0 && (
                     <p className="text-lg text-gray-700">{placeholder}</p>
                 )}
@@ -127,7 +127,7 @@ const CollaboratorInput: React.FC<CollaboratorInputProps> = ({
                         value={newCollaborator}
                         onChange={(e) => setNewCollaborator(e.target.value)}
                         onBlur={handleAddCollaborator}
-                        className="w-[10rem] rounded-lg border px-2 text-lg shadow-lg placeholder:text-gray-700"
+                        className="w-[12rem] rounded-lg border px-2 text-lg shadow-lg placeholder:text-gray-700"
                         autoFocus
                     >
                         <option value="">Select collaborator</option>

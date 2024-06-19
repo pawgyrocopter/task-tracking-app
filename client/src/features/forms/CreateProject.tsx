@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import CollaboratorInput from '@/components/CollaboratorInput'
 import { formatDate } from '@/utils/strings'
 import { getAllUsers } from '@/services/users/UserService'
+import { createProject } from '@/services/project/ProjectService'
 
 const CreateProjectForm = () => {
     const navigate = useNavigate()
@@ -21,23 +22,30 @@ const CreateProjectForm = () => {
     useEffect(() => {
         async function fetchUsers() {
             const users = await getAllUsers()
-            setUsers(users)
+            setUsers(users.map((user) => user.email))
         }
 
         fetchUsers()
     }, [])
 
     const onSubmit: SubmitHandler<CreateProjectFormFields> = async (data) => {
-        // simulate request
-        console.log('data', data)
-        console.log(collaborators)
-
         try {
-            await new Promise((resolve) => setTimeout(resolve, 1000))
+            const projectToCreate = {
+                name: data.name,
+                description: data.description,
+                startDate: new Date(data.startDate).toISOString(),
+                endDate: new Date(data.endDate).toISOString(),
+                users: collaborators.map((collaborator) => {
+                    return {
+                        email: collaborator,
+                    }
+                }),
+            }
+            await createProject(projectToCreate)
             navigate('/projects')
         } catch (error) {
             setError('root', {
-                message: 'Some error',
+                message: 'Error',
             })
         }
     }
@@ -116,7 +124,7 @@ const CreateProjectForm = () => {
                             </p>
                         </div>
                     </div>
-                    <div className="w-[18rem] md:w-[32rem]">
+                    <div className="h-full w-[18rem] md:w-[32rem]">
                         <CollaboratorInput
                             availableCollaborators={users}
                             collaborators={collaborators}
