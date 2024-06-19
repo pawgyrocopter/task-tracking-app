@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom'
 import { Project } from './types'
 import ProgressCircle from './ProgressCircle'
 import useIsMobile from '@/hooks/useIsMobile'
+import { IconTrashFill } from '@/components/ui/IconTrashFill'
+import { deleteProject } from '@/services/project/ProjectService'
 
 const ProjectCard = ({
     id,
@@ -12,6 +14,18 @@ const ProjectCard = ({
 }: Project) => {
     const navigate = useNavigate()
     const isMobile = useIsMobile()
+
+    const handleDeleteProject = async (
+        e: React.MouseEvent<HTMLButtonElement>
+    ) => {
+        e.stopPropagation()
+        const answer = confirm('Are you sure you want to delete project ?')
+
+        if (answer) {
+            await deleteProject(id)
+            navigate(0)
+        }
+    }
 
     return (
         <button
@@ -37,6 +51,9 @@ const ProjectCard = ({
                         <ProgressCircle
                             progress={(completed_tasks / tasks) * 100}
                         />
+                        <button onClick={handleDeleteProject}>
+                            <IconTrashFill className="h-8 w-8" />
+                        </button>
                     </div>
                 </div>
             ) : (
@@ -62,6 +79,9 @@ const ProjectCard = ({
                             <ProgressCircle
                                 progress={(completed_tasks / tasks) * 100}
                             />
+                            <button onClick={handleDeleteProject}>
+                                <IconTrashFill className="h-8 w-8" />
+                            </button>
                         </div>
                     </div>
                 </div>
