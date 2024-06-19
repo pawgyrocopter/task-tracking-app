@@ -99,7 +99,7 @@ const Registration = ({
                     </div>
                     <div className="w-[16rem]">
                         <input
-                            {...register('repeatPassword', {
+                            {...register('confirmPassword', {
                                 required: 'Password is required',
                                 validate: (value: string) => {
                                     return value === getValues('password')
@@ -112,7 +112,7 @@ const Registration = ({
                             className="h-[1.5rem] w-[16rem] rounded-sm border px-1 text-sm"
                         />
                         <p className="text-xs text-red-500">
-                            {errors.repeatPassword?.message}
+                            {errors.confirmPassword?.message}
                         </p>
                     </div>
                 </div>
