@@ -1,9 +1,9 @@
 import { customFetchWithCredentials } from '@/utils/fetch'
-import { ProjectDTO } from './types'
+import { BoardData, ProjectDTO } from './types'
 import { Project } from '@/features/project/types'
-import { BoardColumn } from '@/features/project/board/types'
 import { TaskDTO } from '../task/types'
 import { taskDTOsToBoardTasks } from '../task/TaskService'
+import { getUsersInProject } from '../users/UserService'
 
 const PROJECTS_ENDPOINT = '/projects'
 
@@ -14,7 +14,7 @@ export async function getProjects(): Promise<Project[]> {
     return projectDTOsToProjects(projectDTOs)
 }
 
-export async function getBoardData(projectId: string): Promise<BoardColumn[]> {
+export async function getBoardData(projectId: string): Promise<BoardData> {
     const taskDTOs = await customFetchWithCredentials<TaskDTO[]>(
         `${PROJECTS_ENDPOINT}/${projectId}/tasks`
     )
@@ -43,7 +43,12 @@ export async function getBoardData(projectId: string): Promise<BoardColumn[]> {
         },
     ]
 
-    return columns
+    const users = await getUsersInProject(projectId)
+
+    return {
+        columns: columns,
+        users: users,
+    }
 }
 
 function projectDTOsToProjects(projectDTOs: ProjectDTO[]): Project[] {

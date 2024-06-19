@@ -8,7 +8,7 @@ export type RegistrationFormFields = {
     email: string
     phoneNumber: string
     password: string
-    repeatPassword: string
+    confirmPassword: string
 }
 
 export type CreateProjectFormFields = {
