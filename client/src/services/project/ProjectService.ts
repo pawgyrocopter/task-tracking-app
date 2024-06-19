@@ -14,6 +14,12 @@ export async function getProjects(): Promise<Project[]> {
     return projectDTOsToProjects(projectDTOs)
 }
 
+export async function getProjectById(projectId: string): Promise<ProjectDTO> {
+    return customFetchWithCredentials<ProjectDTO>(
+        `${PROJECTS_ENDPOINT}/${projectId}`
+    )
+}
+
 export async function createProject(
     projectToCreate: ProjectCreateDTO
 ): Promise<ProjectDTO> {
@@ -21,6 +27,21 @@ export async function createProject(
         PROJECTS_ENDPOINT,
         {
             method: 'POST',
+            body: JSON.stringify(projectToCreate),
+        }
+    )
+
+    return projectDTO
+}
+
+export async function editProject(
+    projectId: string,
+    projectToCreate: Partial<ProjectCreateDTO>
+): Promise<ProjectDTO> {
+    const projectDTO = await customFetchWithCredentials<ProjectDTO>(
+        `${PROJECTS_ENDPOINT}/${projectId}`,
+        {
+            method: 'PUT',
             body: JSON.stringify(projectToCreate),
         }
     )
