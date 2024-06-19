@@ -4,6 +4,7 @@ import { BoardTask } from '../board/types'
 import TaskEdit from './TaskEdit'
 import TaskView from './TaskView'
 import { useProjectBoard } from '@/context/ProjectBoardContext'
+import { modifyBoardTask } from '@/services/task/TaskService'
 
 interface AddTaskModalProps {
     show: boolean
@@ -41,8 +42,10 @@ const TaskModal: React.FC<AddTaskModalProps> = ({ show, onClose, task }) => {
         setIsEditing(true)
     }
 
-    const handleSaveClick = () => {
+    const handleSaveClick = async () => {
         // make api request
+
+        await modifyBoardTask(editedTask)
 
         // update task on the client
         const newColumns = columns.map((column) => {

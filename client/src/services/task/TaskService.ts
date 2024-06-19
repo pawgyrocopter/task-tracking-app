@@ -42,6 +42,16 @@ export async function deleteTask(taskId: string): Promise<TaskDTO> {
     )
 }
 
+export async function modifyBoardTask(boardTask: BoardTask): Promise<TaskDTO> {
+    return await modifyTask(boardTask.id, {
+        name: boardTask.name,
+        description: boardTask.description,
+        endDate: boardTask.dueDate?.toISOString(),
+        assignedUserEmail: boardTask.assignee,
+        priority: boardTask.priority,
+    })
+}
+
 export function taskDTOToBoardTask(taskDTO: TaskDTO): BoardTask {
     const boardTask: BoardTask = {
         id: taskDTO.id,
