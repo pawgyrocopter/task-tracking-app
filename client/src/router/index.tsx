@@ -8,6 +8,7 @@ import ProfilePage from '@/pages/Profile'
 import ProjectsPage from '@/pages/Projects'
 import ProjectOverview from '@/pages/ProjectOverview'
 import BoardPage from '@/pages/Board'
+import EditProjectPage from '@/pages/EditProject'
 
 const routes: RouteObject[] = [
     {
@@ -26,6 +27,7 @@ const routes: RouteObject[] = [
             { path: 'profile', element: <ProfilePage /> },
             { path: 'projects', element: <ProjectsPage /> },
             { path: 'create-project', element: <CreateProjectPage /> },
+            { path: 'edit-project', element: <EditProjectPage /> },
             { path: 'projects/:projectId', element: <ProjectOverview /> },
             { path: 'projects/:projectId/board', element: <BoardPage /> },
         ],

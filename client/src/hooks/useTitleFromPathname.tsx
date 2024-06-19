@@ -11,6 +11,8 @@ const useTitleFromPathname = () => {
                 return 'Projects'
             case '/create-project':
                 return 'Create Project'
+            case '/edit-project':
+                return 'Edit Project'
             case pathname.match(/^\/projects\/[^/]+$/)?.input:
                 return 'Project Overview'
             case pathname.match(/^\/projects\/[^/]+\/board$/)?.input:
