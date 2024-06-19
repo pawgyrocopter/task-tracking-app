@@ -4,6 +4,7 @@ import ProgressCircle from './ProgressCircle'
 import useIsMobile from '@/hooks/useIsMobile'
 import { IconTrashFill } from '@/components/ui/IconTrashFill'
 import { deleteProject } from '@/services/project/ProjectService'
+import { IconEdit } from '@/components/ui/IconEdit'
 
 const ProjectCard = ({
     id,
@@ -30,7 +31,7 @@ const ProjectCard = ({
     return (
         <button
             onClick={() => {
-                navigate(`/projects/${id}`)
+                navigate(`/projects/${id}/board`)
             }}
             className="w-full rounded-lg bg-white p-4 shadow-lg"
         >
@@ -43,6 +44,15 @@ const ProjectCard = ({
                             alt="Project Icon"
                         />
                         <h1 className="ml-4">{name}</h1>
+                        <button
+                            className="ml-4"
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                navigate('/edit-project', { state: id })
+                            }}
+                        >
+                            <IconEdit className="h-4 w-4" />
+                        </button>
                     </div>
                     <div className="flex items-center justify-end">
                         <div className="mr-4 flex justify-center font-bold">
@@ -65,6 +75,15 @@ const ProjectCard = ({
                             alt="Project Icon"
                         />
                         <h1 className="ml-4 text-lg">{name}</h1>
+                        <button
+                            className="ml-4"
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                navigate('/edit-project', { state: id })
+                            }}
+                        >
+                            <IconEdit className="h-4 w-4" />
+                        </button>
                     </div>
                     <div className="col-span-5">
                         <p className="truncate px-2 text-center">
