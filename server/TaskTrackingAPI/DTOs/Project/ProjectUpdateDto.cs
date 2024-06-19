@@ -8,7 +8,6 @@ public class ProjectUpdateDto
     
     public DateTime? EndDate { get; set; }
     
-    public List<UserDto> UsersToAdd { get; set; }
-    
-    public List<UserDto> UsersToRemove { get; set; }
+    public List<UserDto> Users { get; set; }
+
 }
