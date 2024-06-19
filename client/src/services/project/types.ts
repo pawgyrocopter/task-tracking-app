@@ -1,5 +1,6 @@
 import { BoardColumn } from '@/features/project/board/types'
 import { TaskDTO } from '../task/types'
+import { UserDTO } from '../users/types'
 
 export interface ProjectDTO {
     id: string
@@ -14,6 +15,14 @@ export interface ProjectDTO {
     ]
     tasks: TaskDTO[]
     img?: string
+}
+
+export interface ProjectCreateDTO {
+    name: string
+    description: string
+    startDate: string
+    endDate: string
+    users: UserDTO[]
 }
 
 export interface BoardData {
