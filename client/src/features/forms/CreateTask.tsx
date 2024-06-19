@@ -20,7 +20,8 @@ const CreateTaskForm = ({
     onFormSubmit: () => void
 }) => {
     const [collaborators, setCollaborators] = useState<string[]>([])
-    const { columns, setColumns, totalTasks, setTotalTasks } = useProjectBoard()
+    const { columns, setColumns, totalTasks, setTotalTasks, users } =
+        useProjectBoard()
     const { projectId } = useParams()
 
     const assignee = collaborators[0]
@@ -133,6 +134,7 @@ const CreateTaskForm = ({
                     </div>
                     <div className="w-[18rem] md:w-[32rem]">
                         <CollaboratorInput
+                            availableCollaborators={users}
                             collaborators={collaborators}
                             setCollaborators={setCollaborators}
                             placeholder="Assignee"

@@ -7,6 +7,7 @@ interface CollaboratorInputProps {
     setCollaborators: React.Dispatch<React.SetStateAction<string[]>>
     placeholder?: string
     singleCollaborator?: boolean
+    availableCollaborators: string[]
 }
 
 const CollaboratorInput: React.FC<CollaboratorInputProps> = ({
@@ -14,8 +15,9 @@ const CollaboratorInput: React.FC<CollaboratorInputProps> = ({
     setCollaborators,
     placeholder = 'Collaborators',
     singleCollaborator = false,
+    availableCollaborators,
 }) => {
-    const [showInput, setShowInput] = useState<boolean>(false)
+    const [showDropdown, setShowDropdown] = useState<boolean>(false)
     const [newCollaborator, setNewCollaborator] = useState<string>('')
     const [editingIndex, setEditingIndex] = useState<number | null>(null)
     const [editingValue, setEditingValue] = useState<string>('')
@@ -33,14 +35,14 @@ const CollaboratorInput: React.FC<CollaboratorInputProps> = ({
                     setCollaborators([...collaborators, collaborator])
                 }
                 setNewCollaborator('')
-                setShowInput(false)
+                setShowDropdown(false)
                 setError('')
             } else {
                 setError(validation as string)
             }
         } else {
             setNewCollaborator('')
-            setShowInput(false)
+            setShowDropdown(false)
             setError('')
         }
     }
@@ -120,23 +122,23 @@ const CollaboratorInput: React.FC<CollaboratorInputProps> = ({
                         )}
                     </div>
                 ))}
-                {showInput ? (
-                    <input
-                        type="email"
+                {showDropdown ? (
+                    <select
                         value={newCollaborator}
                         onChange={(e) => setNewCollaborator(e.target.value)}
                         onBlur={handleAddCollaborator}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                                e.preventDefault()
-                                handleAddCollaborator()
-                            }
-                        }}
                         className="w-[10rem] rounded-lg border px-2 text-lg shadow-lg placeholder:text-gray-700"
                         autoFocus
-                    />
+                    >
+                        <option value="">Select collaborator</option>
+                        {availableCollaborators.map((collaborator, index) => (
+                            <option key={index} value={collaborator}>
+                                {collaborator}
+                            </option>
+                        ))}
+                    </select>
                 ) : !singleCollaborator || collaborators.length === 0 ? (
-                    <button onClick={() => setShowInput(true)}>
+                    <button onClick={() => setShowDropdown(true)}>
                         <AddButton className="h-5 w-5 cursor-pointer" />
                     </button>
                 ) : null}
