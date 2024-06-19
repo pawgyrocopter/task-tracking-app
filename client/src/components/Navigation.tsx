@@ -73,7 +73,7 @@ const Navigation = ({ title }: { title: string }) => {
                         </li>
                         {hasProjectSelected && (
                             <>
-                                <li className="mb-4">
+                                {/* <li className="mb-4">
                                     <Link
                                         to={`/projects/${projectId}`}
                                         onClick={toggleMenu}
@@ -83,7 +83,7 @@ const Navigation = ({ title }: { title: string }) => {
                                     >
                                         Overview
                                     </Link>
-                                </li>
+                                </li> */}
                                 <li className="mb-4">
                                     <Link
                                         to={`/projects/${projectId}/board`}
