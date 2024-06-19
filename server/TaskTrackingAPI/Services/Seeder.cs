@@ -150,7 +150,7 @@ public class Seeder
                 var a = project;
             }
         }
-
+        
         foreach (var (_, user) in _userGroups)
         {
             using (_context.Database.BeginTransaction())
@@ -166,17 +166,17 @@ public class Seeder
                         Role = _roles["Administrator"],
                     });
                 }
-
+        
                 _context.Database.CommitTransaction();
             }
-
-
+        
+        
             foreach (var (_, project) in user.CreatedProjects)
             {
                 var q = Random.Shared.Next(0, _users.Count);
                 var currUsers = _userGroups.Take(q).Where(x => x.Value.User.Id != user.User.Id)
                     .Select(x => x.Value.User);
-
+        
                 var currproject = await _context.Projects.FirstOrDefaultAsync(x => x.Id == project.Id);
                 currproject.Users.AddRange(currUsers.ToList());
                 await _context.SaveChangesAsync();

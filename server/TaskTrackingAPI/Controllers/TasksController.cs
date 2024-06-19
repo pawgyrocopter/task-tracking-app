@@ -97,7 +97,8 @@ public class TasksController : BaseController
             CreatorUser = CurrentUser,
             Priority = taskDto.Priority,
             Project = project,
-            Description = taskDto.Description
+            Description = taskDto.Description,
+            State = taskDto.State
         };
 
         if (taskDto.AssignedUserEmail is not null)
