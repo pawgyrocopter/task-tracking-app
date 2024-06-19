@@ -2,7 +2,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { LoginFormFields } from './types'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '@/context/AuthContext'
-import { validateEmail, validatePassword } from '@/utils/validation'
+import { validateEmail } from '@/utils/validation'
 import { loginUser } from '@/services/auth/AuthService'
 
 const Login = ({
@@ -59,7 +59,6 @@ const Login = ({
                         <input
                             {...register('password', {
                                 required: 'Password is required',
-                                validate: validatePassword,
                             })}
                             type="password"
                             placeholder="Password"
