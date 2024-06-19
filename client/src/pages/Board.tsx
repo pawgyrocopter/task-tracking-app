@@ -18,7 +18,8 @@ const BoardPage = () => {
 
 const BoardContent = () => {
     const { projectId } = useParams()
-    const { columns, setColumns, totalTasks, setTotalTasks } = useProjectBoard()
+    const { columns, setColumns, totalTasks, setTotalTasks, setUsers } =
+        useProjectBoard()
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
     useEffect(() => {
@@ -28,20 +29,20 @@ const BoardContent = () => {
                 return
             }
             setIsLoading(true)
-            const boardColumns = await getBoardData(projectId)
+            const { columns: boardColumns, users } =
+                await getBoardData(projectId)
             const totalTasks = boardColumns.reduce(
                 (total, column) => total + column.tasks.length,
                 0
             )
             setTotalTasks(totalTasks)
+            setUsers(users)
 
             setColumns(boardColumns)
             setIsLoading(false)
         }
         fetchBoardColumns()
     }, [])
-
-    console.log(columns)
 
     return (
         <>
