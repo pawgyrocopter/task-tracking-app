@@ -28,6 +28,17 @@ export async function createProject(
     return projectDTO
 }
 
+export async function deleteProject(projectId: string): Promise<ProjectDTO> {
+    const projectDTO = await customFetchWithCredentials<ProjectDTO>(
+        `${PROJECTS_ENDPOINT}/${projectId}`,
+        {
+            method: 'DELETE',
+        }
+    )
+
+    return projectDTO
+}
+
 export async function getBoardData(projectId: string): Promise<BoardData> {
     const taskDTOs = await customFetchWithCredentials<TaskDTO[]>(
         `${PROJECTS_ENDPOINT}/${projectId}/tasks`
