@@ -5,6 +5,7 @@ import AddTaskModal from './AddTaskModal'
 import { useProjectBoard } from '@/context/ProjectBoardContext'
 import { useState } from 'react'
 import DropIndicator from './DropIndicator'
+import { modifyTask } from '@/services/task/TaskService'
 
 const BoardColumn = ({
     column,
@@ -38,7 +39,7 @@ const BoardColumn = ({
         clearHighlights(column)
     }
 
-    const handleDragDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    const handleDragDrop = async (e: React.DragEvent<HTMLDivElement>) => {
         setIsActive(false)
         clearHighlights(column)
 
@@ -84,8 +85,12 @@ const BoardColumn = ({
                         tasks,
                     }
                 })
-
+                // update on client
                 setColumns(updatedColumns)
+                // update on server
+                await modifyTask(draggingTask.id, {
+                    state: columnId,
+                })
             }
         }
 
