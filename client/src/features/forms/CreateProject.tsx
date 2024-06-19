@@ -1,12 +1,14 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { CreateProjectFormFields } from './types'
 import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import CollaboratorInput from '@/components/CollaboratorInput'
 import { formatDate } from '@/utils/strings'
+import { getAllUsers } from '@/services/users/UserService'
 
 const CreateProjectForm = () => {
     const navigate = useNavigate()
+    const [users, setUsers] = useState<string[]>([])
     const [collaborators, setCollaborators] = useState<string[]>([])
 
     const {
@@ -15,6 +17,15 @@ const CreateProjectForm = () => {
         setError,
         formState: { errors, isSubmitting },
     } = useForm<CreateProjectFormFields>()
+
+    useEffect(() => {
+        async function fetchUsers() {
+            const users = await getAllUsers()
+            setUsers(users)
+        }
+
+        fetchUsers()
+    }, [])
 
     const onSubmit: SubmitHandler<CreateProjectFormFields> = async (data) => {
         // simulate request
@@ -107,6 +118,7 @@ const CreateProjectForm = () => {
                     </div>
                     <div className="w-[18rem] md:w-[32rem]">
                         <CollaboratorInput
+                            availableCollaborators={users}
                             collaborators={collaborators}
                             setCollaborators={setCollaborators}
                         />
